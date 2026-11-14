@@ -6,6 +6,8 @@ namespace Core.Storage.Serialization
 {
     internal class Serializer<T> where T : ISerializable, new()
     {
+
+        // Serializer baziran na vezbama 3
         private const char Rastavljac = ',';
 
         public string ToCSV(List<T> objs)

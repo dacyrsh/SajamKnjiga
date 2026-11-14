@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-enum TipStatusa { P, B};
+enum TipStatusa { Regular = 'R', Vip = 'V'};
 
 namespace Core.Models
 {
