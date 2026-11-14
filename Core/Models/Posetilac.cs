@@ -20,5 +20,11 @@ namespace Core.Models
 
         private double ocena_recenzija;
 
+
+
+        public Posetilac()
+        {
+
+        }
     }
 }
