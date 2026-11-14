@@ -12,5 +12,10 @@ namespace Core.Models
         private int ocena;
         private string komentar;
 
+        public string Datum_kupovine { get => datum_kupovine; set => datum_kupovine = value; }
+        public int Ocena { get => ocena; set => ocena = value; }
+        public string Komentar { get => komentar; set => komentar = value; }
+        internal Posetilac Posetilac { get => posetilac; set => posetilac = value; }
+        internal Knjiga Knjiga { get => knjiga; set => knjiga = value; }
     }
 }
