@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Storage.Serialization;
 
 namespace Core.Models
 {
-    public class Adresa
+    public class Adresa : ISerializable
     {
         // polja
         private int ID;
