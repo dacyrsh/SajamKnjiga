@@ -1,46 +1,75 @@
-﻿using System;
+﻿using Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Storage.Serialization;
 
 namespace Core.Models
 {
-    internal class Autor
+    public class Autor : ISerializable
     {
-        int ID;
+
+        // polja
+        int Id;
         private string ime;
         private string prezime;
-        private string datum;
-        private Adresa adresa;
+        private DateOnly datum;
+        private int IDadrese;
         private string email;
         private string licna_karta;
         private int godine_iskustva;
-        private List<Knjiga> napisane_knjige;
+        private List<int> IDnapisanih_knjiga;
 
+
+        // gets & sets
         public string Ime { get => ime; set => ime = value; }
         public string Prezime { get => prezime; set => prezime = value; }
-        public string Datum { get => datum; set => datum = value; }
+        public DateOnly Datum { get => datum; set => datum = value; }
+        public int IDAdrese { get => IDadrese; set => IDadrese = value; }
         public string Email { get => email; set => email = value; }
         public string Licna_karta { get => licna_karta; set => licna_karta = value; }
         public int Godine_iskustva { get => godine_iskustva; set => godine_iskustva = value; }
-        public int ID1 { get => ID; set => ID = value; }
-        public Adresa Adresa { get => adresa; set => adresa = value; }
-        internal List<Knjiga> Napisane_knjige { get => napisane_knjige; set => napisane_knjige = value; }
+        public int ID { get => Id; set => Id = value; }
+        internal List<int> IDNapisanih_knjiga { get => IDnapisanih_knjiga; set => IDnapisanih_knjiga = value; }
 
+        // konstruktor
 
-        public void FromCSV(string[] vrednosti)
+        public Autor()
         {
-            ID1 = int.Parse(vrednosti[0]);
-            Ime = vrednosti[1];
-            Prezime = vrednosti[2];
-            Datum = vrednosti[3];
-            Email = vrednosti[4];
-            Licna_karta = vrednosti[5];
-            Godine_iskustva = int.Parse(vrednosti[6]);
+
+        }
+
+
+        public Autor(int id, string ime, string prezime, DateOnly datum, int iDadrese, string email, string licna_karta, int godine_iskustva, List<int> iDnapisanih_knjiga)
+        {
+            ID = id;
+            Ime = ime;
+            Prezime = prezime;
+            Datum = datum;
+            IDAdrese = iDadrese;
+            Email = email;
+            Licna_karta = licna_karta;
+            Godine_iskustva = godine_iskustva;
+            IDNapisanih_knjiga = iDnapisanih_knjiga;
+        }
+
+        // serijalizacija
+        public void FromCSV(string[] values)
+        {
+            ID = int.Parse(values[0]);
+            Ime = values[1];
+            Prezime = values[2];
+            Datum = DateOnly.Parse(values[3]);
+            IDAdrese = int.Parse(values[4]);
+            Email = values[5];
+            Licna_karta = values[6];
+            Godine_iskustva = int.Parse(values[7]);
+            IDNapisanih_knjiga = CsvConversion.ToIds(values[8]);
         }
 
         public string[] ToCSV()
         {
-            return new[] { ID1.ToString(), Ime, Prezime, Datum, Email, Licna_karta, Godine_iskustva.ToString()};
+            return new[] { ID.ToString(), Ime, Prezime, Datum.ToString(), IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString(), CsvConversion.FromIds(IDnapisanih_knjiga)};
         }
     }
 }

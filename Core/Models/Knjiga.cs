@@ -1,31 +1,82 @@
-﻿using System;
+﻿using Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text; 
 
 namespace Core.Models
 {
-    internal class Knjiga
+    public class Knjiga
     {
+
+        //polja
+        private int Id;
         private string ISBN;
         private string naziv;
         private string zanr;
         private int godina_izdanja;
         private double cena;
         private int br_strana;
-        private List<Autor> autori;
-        private Izdavac izdavac;
-        private List<Posetilac> posetioci_kupili;
-        private List<Posetilac> posetioci_lista_zelja;
+        private List<int> IDautora;
+        private int IDizdavaca;
+        private List<int> IDkupaca; // posetiloci koji su kupili knjigu
+        private List<int> IDzelja; // posetioci koji su stavili knjigu na listu zelja
 
+        //gets & sets
+
+        public int ID { get => Id; set => Id = value; }
         public string ISBN1 { get => ISBN; set => ISBN = value; }
         public string Naziv { get => naziv; set => naziv = value; }
         public string Zanr { get => zanr; set => zanr = value; }
         public int Godina_izdanja { get => godina_izdanja; set => godina_izdanja = value; }
         public double Cena { get => cena; set => cena = value; }
         public int Br_strana { get => br_strana; set => br_strana = value; }
-        internal List<Autor> Autori { get => autori; set => autori = value; }
-        internal Izdavac Izdavac { get => izdavac; set => izdavac = value; }
-        internal List<Posetilac> Posetioci_kupili { get => posetioci_kupili; set => posetioci_kupili = value; }
-        internal List<Posetilac> Posetioci_lista_zelja { get => posetioci_lista_zelja; set => posetioci_lista_zelja = value; }
+        public int IDIzdavaca { get => IDizdavaca; set => IDizdavaca = value; }
+        public List<int> IDKupaca { get => IDkupaca; set => IDkupaca = value; }
+        public List<int> IDZelja { get => IDzelja; set => IDzelja = value; }
+        internal List<int> IDAutora { get => IDautora; set => IDautora = value; }
+
+
+        // Konstruktori
+        public Knjiga() { }
+
+        public Knjiga(int id, string iSBN, string naziv, string zanr, int godina_izdanja, double cena, int br_strana, List<int> iDautora, int iDizdavaca, List<int> iDkupaca, List<int> iDzelja)
+        {
+            Id = id;
+            ISBN = iSBN;
+            Naziv = naziv;
+            Zanr = zanr;
+            Godina_izdanja = godina_izdanja;
+            Cena = cena;
+            Br_strana = br_strana;
+            IDAutora = iDautora;
+            IDIzdavaca = iDizdavaca;
+            IDKupaca = iDkupaca;
+            IDZelja = iDzelja;
+        }
+
+
+
+        // serijalizacija   
+
+        public void FromCSV(string[] values)
+        {
+            ISBN1 = values[1];
+            Naziv = values[2];
+            Zanr = values[3];
+            Godina_izdanja = int.Parse(values[4]);
+            Cena = double.Parse(values[5]);
+            Br_strana =  int.Parse(values[6]);
+            IDIzdavaca = int.Parse(values[7]);
+            IDKupaca = CsvConversion.ToIds(values[8]);
+            IDZelja = CsvConversion.ToIds(values[9]);
+            IDAutora = CsvConversion.ToIds(values[10]);
+        }
+
+
+        public string[] ToCSV()
+        {
+            return new[] { ISBN1, Naziv, Zanr, Godina_izdanja.ToString(), Cena.ToString(), Br_strana.ToString(), IDIzdavaca.ToString(), CsvConversion.FromIds(IDKupaca), CsvConversion.FromIds(IDZelja), CsvConversion.FromIds(IDAutora) };
+        }
+
     }
 }

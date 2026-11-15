@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Core.Storage.Serialization
 {
-    internal class Serializer<T> where T : ISerializable, new()
+    public class Serializer<T> where T : ISerializable, new()
     {
 
         // Serializer baziran na vezbama 3
-        private const char Rastavljac = ',';
+        private const char Delimiter = '|';
 
         public string ToCSV(List<T> objs)
         {
@@ -16,21 +16,22 @@ namespace Core.Storage.Serialization
 
             foreach(ISerializable obj in objs)
             {
-                string linija = string.Join(Rastavljac.ToString(), obj.ToCSV());
+                string line = string.Join(Delimiter.ToString(), obj.ToCSV());
+                sb.AppendLine(line);
             }
 
             return sb.ToString();
         }
 
-        public List<T> FromCSV(IEnumerable<string> linije)
+        public List<T> FromCSV(IEnumerable<string> lines)
         {
             List<T> objs = new List<T>();
 
-            foreach(string linija in linije)
+            foreach(string line in lines)
             {
-                string[] csvVrednosti = linija.Split(Rastavljac);
+                string[] csvValues = line.Split(Delimiter);
                 T obj = new T();
-                obj.FromCSV(csvVrednosti);
+                obj.FromCSV(csvValues);
                 objs.Add(obj);
             }
 
