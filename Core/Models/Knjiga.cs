@@ -1,11 +1,12 @@
-﻿using Core.Utils;
+﻿using Core.Storage.Serialization;
+using Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text; 
 
 namespace Core.Models
 {
-    public class Knjiga
+    public class Knjiga : ISerializable
     {
 
         //polja
