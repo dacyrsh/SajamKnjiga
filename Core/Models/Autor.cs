@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Core.Storage.Serialization;
+using Core.Interfaces;
 
 namespace Core.Models
 {
-    public class Autor : ISerializable
+    public class Autor : ISerializable, I_ID
     {
 
         // polja
-        int Id;
+        public int Id { get; set; }
         private string ime;
         private string prezime;
         private DateOnly datum;
@@ -29,7 +30,6 @@ namespace Core.Models
         public string Email { get => email; set => email = value; }
         public string Licna_karta { get => licna_karta; set => licna_karta = value; }
         public int Godine_iskustva { get => godine_iskustva; set => godine_iskustva = value; }
-        public int ID { get => Id; set => Id = value; }
         internal List<int> IDNapisanih_knjiga { get => IDnapisanih_knjiga; set => IDnapisanih_knjiga = value; }
 
         // konstruktor
@@ -42,7 +42,7 @@ namespace Core.Models
 
         public Autor(int id, string ime, string prezime, DateOnly datum, int iDadrese, string email, string licna_karta, int godine_iskustva, List<int> iDnapisanih_knjiga)
         {
-            ID = id;
+            Id = id;
             Ime = ime;
             Prezime = prezime;
             Datum = datum;
@@ -56,7 +56,7 @@ namespace Core.Models
         // serijalizacija
         public void FromCSV(string[] values)
         {
-            ID = int.Parse(values[0]);
+            Id = int.Parse(values[0]);
             Ime = values[1];
             Prezime = values[2];
             Datum = DateOnly.Parse(values[3]);
@@ -69,7 +69,7 @@ namespace Core.Models
 
         public string[] ToCSV()
         {
-            return new[] { ID.ToString(), Ime, Prezime, Datum.ToString(), IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString(), CsvConversion.FromIds(IDnapisanih_knjiga)};
+            return new[] { Id.ToString(), Ime, Prezime, Datum.ToString(), IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString(), CsvConversion.FromIds(IDnapisanih_knjiga)};
         }
     }
 }

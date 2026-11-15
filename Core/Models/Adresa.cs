@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Interfaces;
 using Core.Storage.Serialization;
 
 namespace Core.Models
 {
-    public class Adresa : ISerializable
+    public class Adresa : ISerializable, I_ID
     {
         // polja
-        private int ID;
+        public int Id { get; set; }
         private string ulica;
         private string broj;
         private string grad;
@@ -19,13 +20,13 @@ namespace Core.Models
         public Adresa()
         {
         }
-        public Adresa(string ulica, string broj, string grad, string drzava, int iD1)
+        public Adresa(string ulica, string broj, string grad, string drzava, int id)
         {
             Ulica = ulica;
             Broj = broj;
             Grad = grad;
             Drzava = drzava;
-            ID1 = iD1;
+            Id = id;
         }
 
         //gets & sets
@@ -34,14 +35,13 @@ namespace Core.Models
         public string Broj { get => broj; set => broj = value; }
         public string Grad { get => grad; set => grad = value; }
         public string Drzava { get => drzava; set => drzava = value; }
-        public int ID1 { get => ID; set => ID = value; }
 
 
         // Serializer baziran na Vezbama 3
 
         public void FromCSV(string[] values)
         {
-            ID1 = int.Parse(values[0]);
+            Id = int.Parse(values[0]);
             Ulica = values[1];
             Broj = values[2];
             Grad = values[3];
@@ -50,7 +50,7 @@ namespace Core.Models
 
         public string[] ToCSV()
         {
-            return new[] {ID1.ToString(), Ulica, Broj, Grad, Drzava};
+            return new[] {Id.ToString(), Ulica, Broj, Grad, Drzava};
         }
 
         

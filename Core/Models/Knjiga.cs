@@ -1,4 +1,5 @@
-﻿using Core.Storage.Serialization;
+﻿using Core.Interfaces;
+using Core.Storage.Serialization;
 using Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,11 @@ using System.Text;
 
 namespace Core.Models
 {
-    public class Knjiga : ISerializable
+    public class Knjiga : ISerializable, I_ID
     {
 
         //polja
-        private int Id;
+        public int Id { get; set; }
         private string ISBN;
         private string naziv;
         private string zanr;
@@ -23,8 +24,6 @@ namespace Core.Models
         private List<int> IDzelja; // posetioci koji su stavili knjigu na listu zelja
 
         //gets & sets
-
-        public int ID { get => Id; set => Id = value; }
         public string ISBN1 { get => ISBN; set => ISBN = value; }
         public string Naziv { get => naziv; set => naziv = value; }
         public string Zanr { get => zanr; set => zanr = value; }
@@ -61,16 +60,17 @@ namespace Core.Models
 
         public void FromCSV(string[] values)
         {
-            ISBN1 = values[1];
-            Naziv = values[2];
-            Zanr = values[3];
-            Godina_izdanja = int.Parse(values[4]);
-            Cena = double.Parse(values[5]);
-            Br_strana =  int.Parse(values[6]);
-            IDIzdavaca = int.Parse(values[7]);
-            IDKupaca = CsvConversion.ToIds(values[8]);
-            IDZelja = CsvConversion.ToIds(values[9]);
-            IDAutora = CsvConversion.ToIds(values[10]);
+            Id = int.Parse(values[1]);
+            ISBN1 = values[2];
+            Naziv = values[3];
+            Zanr = values[4];
+            Godina_izdanja = int.Parse(values[5]);
+            Cena = double.Parse(values[6]);
+            Br_strana =  int.Parse(values[7]);
+            IDIzdavaca = int.Parse(values[8]);
+            IDKupaca = CsvConversion.ToIds(values[9]);
+            IDZelja = CsvConversion.ToIds(values[10]);
+            IDAutora = CsvConversion.ToIds(values[11]);
         }
 
 
