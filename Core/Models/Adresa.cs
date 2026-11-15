@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Core.Models
 {
-    internal class Adresa
+    public class Adresa
     {
         // polja
         private int ID;

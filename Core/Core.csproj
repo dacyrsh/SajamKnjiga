@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="DAO\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Data\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Core.Storage.Serialization
 {
-    internal class Serializer<T> where T : ISerializable, new()
+    public class Serializer<T> where T : ISerializable, new()
     {
 
         // Serializer baziran na vezbama 3
@@ -17,6 +17,7 @@ namespace Core.Storage.Serialization
             foreach(ISerializable obj in objs)
             {
                 string line = string.Join(Delimiter.ToString(), obj.ToCSV());
+                sb.AppendLine(line);
             }
 
             return sb.ToString();

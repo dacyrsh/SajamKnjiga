@@ -5,10 +5,11 @@ using System.Text;
 
 namespace Core.Models
 {
-    internal class Knjiga
+    public class Knjiga
     {
 
         //polja
+        private int Id;
         private string ISBN;
         private string naziv;
         private string zanr;
@@ -21,6 +22,8 @@ namespace Core.Models
         private List<int> IDzelja; // posetioci koji su stavili knjigu na listu zelja
 
         //gets & sets
+
+        public int ID { get => Id; set => Id = value; }
         public string ISBN1 { get => ISBN; set => ISBN = value; }
         public string Naziv { get => naziv; set => naziv = value; }
         public string Zanr { get => zanr; set => zanr = value; }
@@ -31,6 +34,26 @@ namespace Core.Models
         public List<int> IDKupaca { get => IDkupaca; set => IDkupaca = value; }
         public List<int> IDZelja { get => IDzelja; set => IDzelja = value; }
         internal List<int> IDAutora { get => IDautora; set => IDautora = value; }
+
+
+        // Konstruktori
+        public Knjiga() { }
+
+        public Knjiga(int id, string iSBN, string naziv, string zanr, int godina_izdanja, double cena, int br_strana, List<int> iDautora, int iDizdavaca, List<int> iDkupaca, List<int> iDzelja)
+        {
+            Id = id;
+            ISBN = iSBN;
+            Naziv = naziv;
+            Zanr = zanr;
+            Godina_izdanja = godina_izdanja;
+            Cena = cena;
+            Br_strana = br_strana;
+            IDAutora = iDautora;
+            IDIzdavaca = iDizdavaca;
+            IDKupaca = iDkupaca;
+            IDZelja = iDzelja;
+        }
+
 
 
         // serijalizacija   

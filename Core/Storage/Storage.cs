@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
+using Core.Storage.Serialization;
 
 namespace Core.Storage
 {
-    internal class Storage<T> where T : Serialization.ISerializable, new()
+    public class Storage<T> where T : Serialization.ISerializable, new()
     {
-  
+
         // bazirano na vezbama 3!
-     
-        private string _filePath = $"..{Path.DirectorySeparatorChar}Data{Path.DirectorySeparatorChar}{{0}}";
-        private Serializer<T> _serializer = new();
+        private readonly string _filePath = $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}Core{Path.DirectorySeparatorChar}Data{Path.DirectorySeparatorChar}{{0}}";
+        private readonly Serializer<T> _serializer = new();
 
         public Storage(string fileName)
         {
@@ -35,10 +35,10 @@ namespace Core.Storage
 
         public void Save(List<T> objs)
         {
-            string serializedVehicles = _serializer.ToCSV(objs);
+            string serializedObjs = _serializer.ToCSV(objs);
             using(StreamWriter streamWriter = new StreamWriter(_filePath))
             {
-                streamWriter.Write(serializedVehicles);
+                streamWriter.Write(serializedObjs);
             }
         }
 

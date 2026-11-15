@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Storage.Serialization;
 
 namespace Core.Models
 {
-    internal class Autor
+    public class Autor : ISerializable
     {
 
         // polja
@@ -18,7 +19,7 @@ namespace Core.Models
         private string licna_karta;
         private int godine_iskustva;
         private List<int> IDnapisanih_knjiga;
-        
+
 
         // gets & sets
         public string Ime { get => ime; set => ime = value; }
@@ -31,6 +32,26 @@ namespace Core.Models
         public int ID { get => Id; set => Id = value; }
         internal List<int> IDNapisanih_knjiga { get => IDnapisanih_knjiga; set => IDnapisanih_knjiga = value; }
 
+        // konstruktor
+
+        public Autor()
+        {
+
+        }
+
+
+        public Autor(int id, string ime, string prezime, DateOnly datum, int iDadrese, string email, string licna_karta, int godine_iskustva, List<int> iDnapisanih_knjiga)
+        {
+            ID = id;
+            Ime = ime;
+            Prezime = prezime;
+            Datum = datum;
+            IDAdrese = iDadrese;
+            Email = email;
+            Licna_karta = licna_karta;
+            Godine_iskustva = godine_iskustva;
+            IDNapisanih_knjiga = iDnapisanih_knjiga;
+        }
 
         // serijalizacija
         public void FromCSV(string[] values)
