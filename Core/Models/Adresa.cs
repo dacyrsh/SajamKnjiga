@@ -38,13 +38,13 @@ namespace Core.Models
 
         // Serializer baziran na Vezbama 3
 
-        public void FromCSV(string[] vrednosti)
+        public void FromCSV(string[] values)
         {
-            ID1 = int.Parse(vrednosti[0]);
-            Ulica = vrednosti[1];
-            Broj = vrednosti[2];
-            Grad = vrednosti[3];
-            Drzava = vrednosti[4];
+            ID1 = int.Parse(values[0]);
+            Ulica = values[1];
+            Broj = values[2];
+            Grad = values[3];
+            Drzava = values[4];
         }
 
         public string[] ToCSV()

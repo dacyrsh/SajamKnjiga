@@ -9,7 +9,7 @@ namespace Core.Models
     {
 
         // polja
-        int ID;
+        int Id;
         private string ime;
         private string prezime;
         private DateOnly datum;
@@ -28,27 +28,27 @@ namespace Core.Models
         public string Email { get => email; set => email = value; }
         public string Licna_karta { get => licna_karta; set => licna_karta = value; }
         public int Godine_iskustva { get => godine_iskustva; set => godine_iskustva = value; }
-        public int ID1 { get => ID; set => ID = value; }
+        public int ID { get => Id; set => Id = value; }
         internal List<int> IDNapisanih_knjiga { get => IDnapisanih_knjiga; set => IDnapisanih_knjiga = value; }
 
 
         // serijalizacija
-        public void FromCSV(string[] vrednosti)
+        public void FromCSV(string[] values)
         {
-            ID1 = int.Parse(vrednosti[0]);
-            Ime = vrednosti[1];
-            Prezime = vrednosti[2];
-            Datum = DateOnly.Parse(vrednosti[3]);
-            IDAdrese = int.Parse(vrednosti[4]);
-            Email = vrednosti[5];
-            Licna_karta = vrednosti[6];
-            Godine_iskustva = int.Parse(vrednosti[7]);
-            IDNapisanih_knjiga = CsvConversion.ToIds(vrednosti[8]);
+            ID = int.Parse(values[0]);
+            Ime = values[1];
+            Prezime = values[2];
+            Datum = DateOnly.Parse(values[3]);
+            IDAdrese = int.Parse(values[4]);
+            Email = values[5];
+            Licna_karta = values[6];
+            Godine_iskustva = int.Parse(values[7]);
+            IDNapisanih_knjiga = CsvConversion.ToIds(values[8]);
         }
 
         public string[] ToCSV()
         {
-            return new[] { ID1.ToString(), Ime, Prezime, Datum.ToString(), IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString(), CsvConversion.FromIds(IDnapisanih_knjiga)};
+            return new[] { ID.ToString(), Ime, Prezime, Datum.ToString(), IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString(), CsvConversion.FromIds(IDnapisanih_knjiga)};
         }
     }
 }
