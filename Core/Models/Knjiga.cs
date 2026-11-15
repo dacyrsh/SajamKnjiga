@@ -45,7 +45,7 @@ namespace Core.Models
             Br_strana =  int.Parse(values[6]);
             IDIzdavaca = int.Parse(values[7]);
             IDKupaca = CsvConversion.ToIds(values[8]);
-            IDzelja = CsvConversion.ToIds(values[9]);
+            IDZelja = CsvConversion.ToIds(values[9]);
             IDAutora = CsvConversion.ToIds(values[10]);
         }
 

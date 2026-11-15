@@ -7,8 +7,11 @@ namespace Core.Utils
     internal static class CsvConversion
     {
         public static string ListDelimiter = ",";
+
         public static List<int> ToIds(string value)
         {
+            if (string.IsNullOrWhiteSpace(value)) return new List<int>();
+
             return value.Split(ListDelimiter, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
         }
 
@@ -16,5 +19,7 @@ namespace Core.Utils
         {
             return string.Join(ListDelimiter, ids);
         }
+
+
     }
 }
