@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace Core.Models
         private string email;
         private string licna_karta;
         private int godine_iskustva;
-        private List<Knjiga> napisane_knjige;
+        private List<int> IDnapisanih_knjiga;
         
 
         // gets & sets
@@ -28,7 +29,7 @@ namespace Core.Models
         public string Licna_karta { get => licna_karta; set => licna_karta = value; }
         public int Godine_iskustva { get => godine_iskustva; set => godine_iskustva = value; }
         public int ID1 { get => ID; set => ID = value; }
-        internal List<Knjiga> Napisane_knjige { get => napisane_knjige; set => napisane_knjige = value; }
+        internal List<int> IDNapisanih_knjiga { get => IDnapisanih_knjiga; set => IDnapisanih_knjiga = value; }
 
 
         // serijalizacija
@@ -42,11 +43,12 @@ namespace Core.Models
             Email = vrednosti[5];
             Licna_karta = vrednosti[6];
             Godine_iskustva = int.Parse(vrednosti[7]);
+            IDNapisanih_knjiga = CsvConversion.ToIds(vrednosti[8]);
         }
 
         public string[] ToCSV()
         {
-            return new[] { ID1.ToString(), Ime, Prezime, Datum.ToString(), IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString()};
+            return new[] { ID1.ToString(), Ime, Prezime, Datum.ToString(), IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString(), CsvConversion.FromIds(IDnapisanih_knjiga)};
         }
     }
 }
