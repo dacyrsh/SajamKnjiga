@@ -6,12 +6,15 @@ namespace Core.Models
 {
     internal class Adresa
     {
+        // polja
         private int ID;
         private string ulica;
         private string broj;
         private string grad;
         private string drzava;
 
+
+        // konstruktori
         public Adresa()
         {
         }
@@ -23,6 +26,8 @@ namespace Core.Models
             Drzava = drzava;
             ID1 = iD1;
         }
+
+        //gets & sets
 
         public string Ulica { get => ulica; set => ulica = value; }
         public string Broj { get => broj; set => broj = value; }
