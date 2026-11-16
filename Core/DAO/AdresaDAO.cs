@@ -7,7 +7,7 @@ namespace Core.DAO
 {
     internal class AdreseDAO : GenericDAO<Adresa>
     {
-        public AdreseDAO(string fileName):base("adrese.txt")
+        public AdresaDAO(string fileName):base("adrese.txt")
         {
 
         }

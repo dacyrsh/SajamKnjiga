@@ -5,11 +5,10 @@ using Core.Models;
 
 namespace Core.DAO
 {
-    internal class KnjigeDAO : GenericDAO<Knjiga>
+    internal class AutorDAO : GenericDAO<Autor>
     {
-        public KnjigeDAO(string filename) : base("knjige.txt")
+        public AutorDAO(string fileName) : base("autori.txt")
         {
-
         }
     }
 }
