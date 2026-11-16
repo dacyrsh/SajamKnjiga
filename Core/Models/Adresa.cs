@@ -53,6 +53,11 @@ namespace Core.Models
             return new[] {Id.ToString(), Ulica, Broj, Grad, Drzava};
         }
 
+
+        public override string ToString()
+        {
+            return $"{Ulica} {Broj}, {Grad}, {Drzava}";
+        }
         
     }
 }

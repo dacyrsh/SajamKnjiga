@@ -1,6 +1,7 @@
 ﻿using Core.DAO;
 using Core.Models;
 using Core.Utils;
+using System.Net;
 
 namespace ConsoleClient.Views
 {
@@ -8,6 +9,8 @@ namespace ConsoleClient.Views
     {
         private readonly AutorDAO _autoriDAO = new();
         private readonly KnjigaDAO _knjigeDAO = new();
+
+        private readonly AdresaDAO _adreseDAO = new();
         //private readonly IzdavacDAO _izdavaciDAO = new();
 
         public AutorView(AutorDAO autoriDAO, KnjigaDAO knjigeDAO) : base(autoriDAO, "autori.txt")
@@ -79,7 +82,7 @@ namespace ConsoleClient.Views
                         break;
 
                     case 4:
-                        
+                        EditAddress(autor);
                         break;
 
 
@@ -107,7 +110,7 @@ namespace ConsoleClient.Views
                         break;
 
                     case 9:
-
+                        EditBooks(autor);
                         break;
 
                     case 0:
@@ -118,7 +121,34 @@ namespace ConsoleClient.Views
                         break;
                 }
             } while (choice != 0);
-
         }
+
+        private void EditAddress(Autor autor)
+        {
+            List<Adresa> adrese = _adreseDAO.GetAll();
+
+            if(adrese.Count == 0)
+            {
+                System.Console.WriteLine("Nema dostupnih adresa. Dodajte adresu kroz glavni meni!");
+                return;
+            }
+
+            System.Console.WriteLine("Dostupne adrese:");
+            foreach (Adresa adresa in adrese)
+                System.Console.WriteLine($"[{adresa.Id}] - {adresa.ToString()}");
+
+            int novaAdresa = ConsoleViewUtils.SafeInputInt("ID Adrese [-1 za odustajanje!]: ");
+
+            if (novaAdresa == -1) return;
+
+            if(_adreseDAO.GetById(novaAdresa) == null)
+            {
+                System.Console.WriteLine("Izabrali ste nepostojeću adresu...");
+                return;
+            }
+
+            autor.IDAdrese = novaAdresa;
+        }
+
     }
 }
