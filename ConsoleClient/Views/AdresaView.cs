@@ -26,7 +26,11 @@ namespace ConsoleClient.Views
 
         protected override void ObjRemoved(Adresa adresa)
         {
-            throw new NotImplementedException();
+            foreach(Autor autor in _autoriDAO.GetAll().Where(autor => autor.IDAdrese == adresa.Id))
+            {
+                autor.IDAdrese = 0;
+                _autoriDAO.Update(autor);
+            }
         }
 
         protected override void PrintObj(Adresa adresa)
