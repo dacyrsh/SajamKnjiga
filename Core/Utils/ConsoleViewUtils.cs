@@ -56,6 +56,7 @@ namespace Core.Utils
             while(!DateOnly.TryParseExact(input,"yyyy-MM-dd", out DateOnly date))
             {
                 Console.WriteLine("Greska! Nije dobar format datuma!");
+                input = SafeInputStr();
             }
          
             return DateOnly.ParseExact(input, "yyyy-MM-dd");
@@ -67,6 +68,7 @@ namespace Core.Utils
             while (!DateOnly.TryParseExact(input, "yyyy-MM-dd", out DateOnly date))
             {
                 Console.WriteLine("Greska! Nije dobar format datuma!");
+                input = SafeInputStr();
             }
 
             return DateOnly.ParseExact(input, "yyyy-MM-dd");

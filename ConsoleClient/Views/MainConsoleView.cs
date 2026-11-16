@@ -13,10 +13,12 @@ namespace ConsoleClient.Views
         private readonly KnjigaDAO _knjigaDAO = new();
 
         private readonly AdresaView _adresaView;
+        private readonly AutorView _autorView;
 
         public MainConsoleView()
         {
             _adresaView = new AdresaView(_adreseDAO, _autorDAO);
+            _autorView = new AutorView(_autorDAO, _knjigaDAO);
         }
 
         public void Run()
@@ -43,10 +45,10 @@ namespace ConsoleClient.Views
                 {
 
                     case 1:
-
+                        
                         break;
                     case 2:
-
+                        _autorView.Run();
                         break;
                     case 3:
 

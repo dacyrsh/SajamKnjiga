@@ -21,7 +21,7 @@ namespace ConsoleClient.Views
                 Ulica = ConsoleViewUtils.SafeInputStr("Naziv ulice: "),
                 Broj = ConsoleViewUtils.SafeInputStr("Broj ulice: "),
                 Grad = ConsoleViewUtils.SafeInputStr("Grad: "),
-                Drzava = ConsoleViewUtils.SafeInputStr("Drzava: "),
+                Drzava = ConsoleViewUtils.SafeInputStr("Država: "),
             };
         }
 
@@ -55,7 +55,7 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("1 - Ulica");
                 System.Console.WriteLine("2 - Broj");
                 System.Console.WriteLine("3 - Grad");
-                System.Console.WriteLine("4 - Drzava");
+                System.Console.WriteLine("4 - Država");
                 System.Console.WriteLine("0 - Završi izmenu");
                 System.Console.WriteLine(">-------------------------------------------------<");
                 System.Console.WriteLine("Unesite broj vašeg izbora: ");
@@ -83,7 +83,7 @@ namespace ConsoleClient.Views
                         break;
 
                     case 4:
-                        System.Console.Write($"Nova drzava (Stara drzava - [{adresa.Drzava}]): ");
+                        System.Console.Write($"Nova država (Stara država - [{adresa.Drzava}]): ");
                         adresa.Drzava = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
