@@ -7,6 +7,7 @@ namespace ConsoleClient.Views
     internal class AdresaView : GenericView<Adresa>
     {
         private readonly AutorDAO _autoriDAO;
+        //private readonly PosetilacDAO _posetiociDAO; (dodati svuda)
 
         public AdresaView(AdresaDAO adreseDAO, AutorDAO autoriDAO) : base(adreseDAO, "Adrese")
         {
@@ -28,9 +29,16 @@ namespace ConsoleClient.Views
         {
             foreach(Autor autor in _autoriDAO.GetAll().Where(autor => autor.IDAdrese == adresa.Id))
             {
-                autor.IDAdrese = 0;
+                autor.IDAdrese = -1;
                 _autoriDAO.Update(autor);
             }
+            /*
+             foreach(Posetilac posetilac in _posetiociDAO.GetAll().Where(posetilac => posetilac.IDAdrese == adresa.Id))
+            {
+                posetilac.IDAdrese = -1;
+                _posetioci.Update(posetilac);
+            }
+             */
         }
 
         protected override void PrintObj(Adresa adresa)

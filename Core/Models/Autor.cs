@@ -40,17 +40,15 @@ namespace Core.Models
         }
 
 
-        public Autor(int id, string ime, string prezime, DateOnly datum, int iDadrese, string email, string licna_karta, int godine_iskustva, List<int> iDnapisanih_knjiga)
+        public Autor(int id, string ime, string prezime, DateOnly datum, string email, string licna_karta, int godine_iskustva)
         {
             Id = id;
             Ime = ime;
             Prezime = prezime;
             Datum = datum;
-            IDAdrese = iDadrese;
             Email = email;
             Licna_karta = licna_karta;
             Godine_iskustva = godine_iskustva;
-            IDNapisanih_knjiga = iDnapisanih_knjiga;
         }
 
         // serijalizacija

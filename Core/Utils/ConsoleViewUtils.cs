@@ -43,5 +43,22 @@ namespace Core.Utils
             Console.Write(ispis);
             return SafeInputStr();
         }
+
+        public static int SafeInputInt(string ispis)
+        {
+            Console.Write(ispis);
+            return SafeInputInt();
+        }
+
+        public static DateOnly SafeInputDateOnly(string ispis)
+        {
+            string input = SafeInputStr(ispis);
+            while(!DateOnly.TryParseExact(input,"yyyy-MM-dd", out DateOnly date))
+            {
+                Console.WriteLine("Greska! Nije dobar format datuma!");
+            }
+         
+            return DateOnly.ParseExact(input, "yyyy-MM-dd");
+        }
     }
 }
