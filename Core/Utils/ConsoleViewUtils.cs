@@ -60,5 +60,16 @@ namespace Core.Utils
          
             return DateOnly.ParseExact(input, "yyyy-MM-dd");
         }
+
+        public static DateOnly SafeInputDateOnly()
+        {
+            string input = SafeInputStr();
+            while (!DateOnly.TryParseExact(input, "yyyy-MM-dd", out DateOnly date))
+            {
+                Console.WriteLine("Greska! Nije dobar format datuma!");
+            }
+
+            return DateOnly.ParseExact(input, "yyyy-MM-dd");
+        }
     }
 }

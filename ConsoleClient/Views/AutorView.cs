@@ -22,6 +22,7 @@ namespace ConsoleClient.Views
                 Ime = ConsoleViewUtils.SafeInputStr("Ime: "),
                 Prezime = ConsoleViewUtils.SafeInputStr("Prezime: "),
                 Datum = ConsoleViewUtils.SafeInputDateOnly("Datum: "),
+                Telefon = ConsoleViewUtils.SafeInputStr("Telefon: "),
                 Email = ConsoleViewUtils.SafeInputStr("Email :"),
                 Licna_karta = ConsoleViewUtils.SafeInputStr("Licna karta: "),
                 Godine_iskustva = ConsoleViewUtils.SafeInputInt("Godine iskustva: ")
@@ -39,7 +40,85 @@ namespace ConsoleClient.Views
 
         protected override void ReadUpdatedObj(Autor autor)
         {
-        
+            int choice;
+            do
+            {
+                System.Console.WriteLine($">---- Izmena autora: {autor.Ime} {autor.Prezime} ----<");
+                System.Console.WriteLine("1 - Ime");
+                System.Console.WriteLine("2 - Prezime");
+                System.Console.WriteLine("3 - Datum rođenja");
+                System.Console.WriteLine("4 - Adresa");
+                System.Console.WriteLine("5 - Telefon");
+                System.Console.WriteLine("6 - E-mail");
+                System.Console.WriteLine("7 - Broj lične karte");
+                System.Console.WriteLine("8 - Godine iskustva");
+                System.Console.WriteLine("9 - Napisane knjige");
+                System.Console.WriteLine(">-------------------------------------------------<");
+                System.Console.WriteLine("Unesite broj vašeg izbora: ");
+                choice = ConsoleViewUtils.SafeInputInt();
+                System.Console.WriteLine();
+
+                switch (choice)
+                {
+                    case 1:
+                        System.Console.Write($"Novo ime (Staro ime - [{autor.Ime}]): ");
+                        autor.Ime= ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
+                        break;
+
+                    case 2:
+                        System.Console.Write($"Novo prezime (Stari prezime - [{autor.Prezime}]): ");
+                        autor.Prezime = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
+                        break;
+
+                    case 3:
+                        System.Console.Write($"Novi datum (Stari datum - [{autor.Datum}]): ");
+                        autor.Datum = ConsoleViewUtils.SafeInputDateOnly();
+                        System.Console.WriteLine();
+                        break;
+
+                    case 4:
+                        
+                        break;
+
+
+                    case 5:
+                        System.Console.Write($"Novi telefon (Stari telefon - [{autor.Telefon}]): ");
+                        autor.Telefon= ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
+                        break;
+                    case 6:
+                        System.Console.Write($"Novi e-mail (Stari e-mail - [{autor.Email}]): ");
+                        autor.Email = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
+                        break;
+
+                    case 7:
+                        System.Console.Write($"Novi br. lične karte (Stari br. lične karte  - [{autor.Licna_karta}]): ");
+                        autor.Licna_karta = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
+                        break;
+
+                    case 8:
+                        System.Console.Write($"Nove godine iskustva  (Stare godine iskustva - [{autor.Godine_iskustva}]): ");
+                        autor.Godine_iskustva = ConsoleViewUtils.SafeInputInt();
+                        System.Console.WriteLine();
+                        break;
+
+                    case 9:
+
+                        break;
+
+                    case 0:
+                        break;
+
+                    default:
+                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.");
+                        break;
+                }
+            } while (choice != 0);
+
         }
     }
 }

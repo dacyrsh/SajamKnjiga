@@ -15,6 +15,7 @@ namespace Core.Models
         private string ime;
         private string prezime;
         private DateOnly datum;
+        private string telefon;
         private int IDadrese;
         private string email;
         private string licna_karta;
@@ -27,6 +28,7 @@ namespace Core.Models
         public string Prezime { get => prezime; set => prezime = value; }
         public DateOnly Datum { get => datum; set => datum = value; }
         public int IDAdrese { get => IDadrese; set => IDadrese = value; }
+        public string Telefon { get => telefon; set => telefon = value; }
         public string Email { get => email; set => email = value; }
         public string Licna_karta { get => licna_karta; set => licna_karta = value; }
         public int Godine_iskustva { get => godine_iskustva; set => godine_iskustva = value; }
