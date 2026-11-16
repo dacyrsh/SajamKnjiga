@@ -33,38 +33,42 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("5 - Izdavači");
                 System.Console.WriteLine("6 - Adrese");
                 System.Console.WriteLine("0 - Izlaz iz aplikacije");
+                System.Console.WriteLine(">----------------------------<");
 
-                System.Console.Write("Unesite broj vašeg izbora:");
+                System.Console.Write("Unesite broj vašeg izbora: ");
                 choice = ConsoleViewUtils.SafeInputInt();
+                System.Console.WriteLine();
 
-                switch(choice)
+                switch (choice)
                 {
 
-                    case 1: 
+                    case 1:
 
                         break;
-                    case 2: 
+                    case 2:
 
                         break;
-                    case 3: 
+                    case 3:
 
                         break;
-                    case 4: 
+                    case 4:
 
                         break;
-                    case 5: 
+                    case 5:
 
                         break;
                     case 6:
-                        
+                        _adresaView.Run();
+                        break;
+
+                    case 0:
                         break;
 
                     default:
+                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.");
                         break;
                 }
-
-
-            }
+            } while (choice != 0);
         }
 
     }

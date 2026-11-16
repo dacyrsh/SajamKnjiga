@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using Core.DAO;
 using Core.Interfaces;
@@ -18,20 +19,69 @@ namespace ConsoleClient.Views
             _objName = objName;
         }
 
+        // Run
+
+        public void Run()
+        {
+            int choice;
+
+            do
+            {
+                // meni
+                System.Console.WriteLine($">---- {_objName} ----<");
+                System.Console.WriteLine("1 - Prikaži sve");
+                System.Console.WriteLine("2 - Dodaj");
+                System.Console.WriteLine("3 - Izmeni");
+                System.Console.WriteLine("4 - Obriši");
+                System.Console.WriteLine("0 - Nazad");
+                System.Console.WriteLine(">---------------------<");
+
+                System.Console.Write("Unesite broj vašeg izbora: ");
+                choice = ConsoleViewUtils.SafeInputInt();
+                System.Console.WriteLine();
+
+                switch (choice)
+                {
+
+                    case 1:
+                        PrintAll();
+                        break;
+                    case 2:
+                        Add();
+                        break;
+                    case 3:
+                        Update();
+                        break;
+                    case 4:
+                        Remove();
+                        break;
+                   
+                    case 0:
+                        break;
+
+                    default:
+                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.");
+                        break;
+                }
+            } while (choice != 0);
+        
+        }
+
         // Unos (Create)
 
-        private void Add(string nameOfObj)
+        private void Add()
         {
             T obj = InputObj();
             _dao.Add(obj);
-            System.Console.WriteLine($"{nameOfObj} je uspesno dodat. ID = {obj.Id} ");
+            System.Console.WriteLine($"Objekat je uspesno dodat. ID = {obj.Id} ");
+            System.Console.WriteLine();
         }
 
         protected abstract T InputObj();
 
         // Ispis (Read)
         
-        private void PrintAll(string nameOfObj)
+        private void PrintAll()
         {
             List<T> objs = _dao.GetAll();
 
@@ -39,11 +89,12 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("Trenutno nema ni jedan podatak.");
             else
             {
-                System.Console.WriteLine($"{nameOfObj}:");
+                System.Console.WriteLine($"{_objName}:");
                 foreach (T obj in objs)
                 {
                     PrintObj(obj);
                 }
+                Console.WriteLine();
             }
         }
 
@@ -53,7 +104,7 @@ namespace ConsoleClient.Views
 
         private void Update()
         {
-            Console.WriteLine("Unesite id: ");
+            Console.Write("Unesite id: ");
             int id = ConsoleViewUtils.SafeInputInt();
 
             T obj = _dao.GetById(id);
@@ -76,11 +127,13 @@ namespace ConsoleClient.Views
         {
             Console.Write("ID za brisanje: ");
             int id = ConsoleViewUtils.SafeInputInt();
+            Console.WriteLine(); 
             T obj = _dao.GetById(id);
 
             if(obj == null)
             {
                 System.Console.WriteLine("ID " + id + " ne postoji u sistemu!");
+                System.Console.WriteLine(); 
                 return;
             }
 

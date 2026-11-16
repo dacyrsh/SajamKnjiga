@@ -17,10 +17,10 @@ namespace ConsoleClient.Views
         {
             return new Adresa
             {
-                Ulica = ConsoleViewUtils.SafeInputStr(),
-                Broj = ConsoleViewUtils.SafeInputStr(),
-                Grad = ConsoleViewUtils.SafeInputStr(),
-                Drzava = ConsoleViewUtils.SafeInputStr(),
+                Ulica = ConsoleViewUtils.SafeInputStr("Naziv ulice: "),
+                Broj = ConsoleViewUtils.SafeInputStr("Broj ulice: "),
+                Grad = ConsoleViewUtils.SafeInputStr("Grad: "),
+                Drzava = ConsoleViewUtils.SafeInputStr("Drzava: "),
             };
         }
 
@@ -43,35 +43,41 @@ namespace ConsoleClient.Views
             int choice;
             do
             {
-                System.Console.WriteLine($"\n>---- Izmena adrese: {adresa} ----<");
+                System.Console.WriteLine($">---- Izmena adrese: {adresa.Ulica} {adresa.Broj} {adresa.Grad} {adresa.Drzava} ----<");
                 System.Console.WriteLine("1 - Ulica");
                 System.Console.WriteLine("2 - Broj");
                 System.Console.WriteLine("3 - Grad");
                 System.Console.WriteLine("4 - Drzava");
                 System.Console.WriteLine("0 - Završi izmenu");
+                System.Console.WriteLine(">-------------------------------------------------<");
                 System.Console.WriteLine("Unesite broj vašeg izbora: ");
                 choice = ConsoleViewUtils.SafeInputInt();
+                System.Console.WriteLine();
 
                 switch (choice)
                 {
                     case 1:
-                        System.Console.WriteLine($"Nova ulica (Stara ulica - [{adresa.Ulica}]: ");
+                        System.Console.Write($"Nova ulica (Stara ulica - [{adresa.Ulica}]): ");
                         adresa.Ulica = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
                         break;
 
                     case 2:
-                        System.Console.WriteLine($"Novi broj (Stari broj - [{adresa.Broj}]: ");
+                        System.Console.Write($"Novi broj (Stari broj - [{adresa.Broj}]): ");
                         adresa.Broj = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
                         break;
 
                     case 3:
-                        System.Console.WriteLine($"Nova grad (Stara grad - [{adresa.Grad}]: ");
+                        System.Console.Write($"Nova grad (Stara grad - [{adresa.Grad}]): ");
                         adresa.Grad = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
                         break;
 
                     case 4:
-                        System.Console.WriteLine($"Nova drzava (Stara drzava - [{adresa.Drzava}]: ");
+                        System.Console.Write($"Nova drzava (Stara drzava - [{adresa.Drzava}]): ");
                         adresa.Drzava = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
                         break;
 
                     case 0:

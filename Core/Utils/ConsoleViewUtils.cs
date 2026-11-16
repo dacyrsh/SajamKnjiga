@@ -30,12 +30,18 @@ namespace Core.Utils
 
             while(string.IsNullOrEmpty(input))
             {
-                System.Console.WriteLine("Vrednost nije validna. Pokusajte ponovo: ");
+                System.Console.Write("Vrednost nije validna. Pokusajte ponovo: ");
 
                 input = System.Console.ReadLine() ?? string.Empty;
             }
 
             return input;
+        }
+
+        public static string SafeInputStr(string ispis)
+        {
+            Console.Write(ispis);
+            return SafeInputStr();
         }
     }
 }

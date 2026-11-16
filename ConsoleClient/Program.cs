@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlTypes;
 using System.Globalization;
+using ConsoleClient.Views;
 using Core.Models;
 using Core.Storage;
 
@@ -10,7 +11,7 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("Hello World");
-
+        MainConsoleView view = new MainConsoleView();
+        view.Run();
     }
 }
