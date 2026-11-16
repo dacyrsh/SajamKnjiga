@@ -60,7 +60,7 @@ namespace ConsoleClient.Views
 
             if(obj == null)
             {
-                System.Console.WriteLine("Taj ID ne postoji u sistemu!");
+                System.Console.WriteLine("ID " + id + " ne postoji u sistemu!");
                 return;
             }
 
@@ -70,7 +70,26 @@ namespace ConsoleClient.Views
 
         protected abstract void ReadUpdatedObj(T obj);
 
+        // Brisanje (Delete)
 
-   
+        private void Remove()
+        {
+            Console.Write("ID za brisanje: ");
+            int id = ConsoleViewUtils.SafeInputInt();
+            T obj = _dao.GetById(id);
+
+            if(obj == null)
+            {
+                System.Console.WriteLine("ID " + id + " ne postoji u sistemu!");
+                return;
+            }
+
+            _dao.Remove(id);
+            ObjRemoved(obj);
+        }
+
+        protected abstract void ObjRemoved(T obj);
+
+
     }
 }
