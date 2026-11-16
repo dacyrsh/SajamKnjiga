@@ -7,7 +7,7 @@ namespace Core.DAO
 {
     public class AutorDAO : GenericDAO<Autor>
     {
-        public AutorDAO(string fileName) : base("autori.txt")
+        public AutorDAO() : base("autori.txt")
         {
         }
     }
