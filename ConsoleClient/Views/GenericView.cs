@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Core.DAO;
 using Core.Interfaces;
+using Core.Utils;
 
 namespace ConsoleClient.Views
 {
@@ -53,8 +54,22 @@ namespace ConsoleClient.Views
         private void Update()
         {
             Console.WriteLine("Unesite id: ");
-            int id = ConsoleInput.SafeInputInt();
+            int id = ConsoleViewUtils.SafeInputInt();
+
+            T obj = _dao.GetById(id);
+
+            if(obj == null)
+            {
+                System.Console.WriteLine("Taj ID ne postoji u sistemu!");
+                return;
+            }
+
+            ReadUpdatedObj(obj);
+            _dao.Update(obj);
         }
+
+        protected abstract void ReadUpdatedObj(T obj);
+
 
    
     }

@@ -6,7 +6,7 @@ namespace Core.Utils
 {
     // bazirano na Vezbama 3!
     // provera unosa 
-    static class ConsoleViewUtils
+    public static class ConsoleViewUtils
     {   
         public static int SafeInputInt()
         {
