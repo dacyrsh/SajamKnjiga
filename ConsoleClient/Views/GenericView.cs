@@ -50,7 +50,12 @@ namespace ConsoleClient.Views
 
         // Izmena (Update)
 
-    
+        private void Update()
+        {
+            Console.WriteLine("Unesite id: ");
+            int id = ConsoleInput.SafeInputInt();
         }
+
+   
     }
 }
