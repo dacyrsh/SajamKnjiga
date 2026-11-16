@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace Core.DAO
 {
-    internal abstract class GenericDAO<T> where T: class, ISerializable, I_ID, new()
+    public abstract class GenericDAO<T> : IEntityDAO<T> where T: class, ISerializable, I_ID, new()
     {
         // Bazirano na vezbama 3!
         private readonly List<T> _objs;

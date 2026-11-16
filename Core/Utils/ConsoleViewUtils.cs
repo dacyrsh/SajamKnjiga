@@ -23,5 +23,19 @@ namespace Core.Utils
 
             return input;
         }
+
+        public static string SafeInputStr()
+        {
+            string input = System.Console.ReadLine() ?? string.Empty;
+
+            while(string.IsNullOrEmpty(input))
+            {
+                System.Console.WriteLine("Vrednost nije validna. Pokusajte ponovo: ");
+
+                input = System.Console.ReadLine() ?? string.Empty;
+            }
+
+            return input;
+        }
     }
 }

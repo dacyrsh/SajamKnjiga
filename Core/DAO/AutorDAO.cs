@@ -5,7 +5,7 @@ using Core.Models;
 
 namespace Core.DAO
 {
-    internal class AutorDAO : GenericDAO<Autor>
+    public class AutorDAO : GenericDAO<Autor>
     {
         public AutorDAO(string fileName) : base("autori.txt")
         {
