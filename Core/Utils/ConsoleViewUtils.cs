@@ -16,7 +16,7 @@ namespace Core.Utils
 
             while(!int.TryParse(rawInput, out input))
             {
-                System.Console.WriteLine("Broj nije validan. Pokusajte ponovo: ");
+                System.Console.Write("Broj nije validan. Pokusajte ponovo: ");
 
                 rawInput = System.Console.ReadLine() ?? string.Empty;
             }
@@ -55,7 +55,7 @@ namespace Core.Utils
             string input = SafeInputStr(ispis);
             while(!DateOnly.TryParseExact(input,"yyyy-MM-dd", out DateOnly date))
             {
-                Console.WriteLine("Greska! Nije dobar format datuma!");
+                Console.WriteLine("Greska! Nije dobar format datuma!\nPokusajte ponovo: ");
                 input = SafeInputStr();
             }
          
@@ -67,7 +67,7 @@ namespace Core.Utils
             string input = SafeInputStr();
             while (!DateOnly.TryParseExact(input, "yyyy-MM-dd", out DateOnly date))
             {
-                Console.WriteLine("Greska! Nije dobar format datuma!");
+                Console.WriteLine("Greska! Nije dobar format datuma!\nPokusajte ponovo: ");
                 input = SafeInputStr();
             }
 
