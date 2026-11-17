@@ -73,5 +73,27 @@ namespace Core.Utils
 
             return DateOnly.ParseExact(input, "yyyy-MM-dd");
         }
+
+        public static double SafeInputDouble()
+        {
+            double input;
+
+            string rawInput = System.Console.ReadLine() ?? string.Empty;
+
+            while (!double.TryParse(rawInput, out input))
+            {
+                System.Console.WriteLine("Broj nije validan. Pokusajte ponovo: ");
+
+                rawInput = System.Console.ReadLine() ?? string.Empty;
+            }
+
+            return input;
+        }
+
+        public static double SafeInputDouble(string ispis)
+        {
+            Console.Write(ispis);
+            return SafeInputDouble();
+        }
     }
 }

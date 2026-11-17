@@ -13,9 +13,11 @@ namespace ConsoleClient.Views
         private readonly AdresaDAO _adreseDAO = new();
         //private readonly IzdavacDAO _izdavaciDAO = new();
 
-        public AutorView(AutorDAO autoriDAO, KnjigaDAO knjigeDAO) : base(autoriDAO, "Autori")
+        public AutorView(AutorDAO autoriDAO, KnjigaDAO knjigeDAO, AdresaDAO adreseDAO) : base(autoriDAO, "Autori")
         {
+            _autoriDAO = autoriDAO;
             _knjigeDAO = knjigeDAO;
+            _adreseDAO = adreseDAO;
         }
 
 
@@ -81,7 +83,7 @@ namespace ConsoleClient.Views
                         break;
 
                     case 2:
-                        System.Console.Write($"Novo prezime (Stari prezime - [{autor.Prezime}]): ");
+                        System.Console.Write($"Novo prezime (Staro prezime - [{autor.Prezime}]): ");
                         autor.Prezime = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
