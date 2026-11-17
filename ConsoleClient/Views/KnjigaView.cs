@@ -34,6 +34,11 @@ namespace ConsoleClient.Views
 
         protected override void ObjRemoved(Knjiga knjiga)
         {
+            foreach(Autor autor in _autoriDAO.GetAll().Where(autor => autor.IDNapisanih_knjiga.Contains(knjiga.Id)))
+            {
+                autor.IDNapisanih_knjiga.Remove(knjiga.Id);
+                _autoriDAO.Update(autor);
+            }
 
         }
 
@@ -165,12 +170,65 @@ namespace ConsoleClient.Views
 
         private void AddAuthor(Knjiga knjiga)
         {
-            
+            List<Autor> slobodniAutori = _autoriDAO.GetAll().Where(autor => !knjiga.IDAutora.Contains(autor.Id)).ToList();
+
+            if (slobodniAutori.Count == 0)
+            {
+                System.Console.WriteLine("Nema dostupnih autora za dodavanje! :c\n");
+                return;
+            }
+
+            foreach (Autor autor in slobodniAutori)
+                System.Console.WriteLine($"[{autor.Id}] {autor.Ime} {autor.Prezime}");
+
+            Console.WriteLine();
+            int IDautora = ConsoleViewUtils.SafeInputInt("Unesite ID autora kojeg zelite dodati knjizi: ");
+            Autor izabraniAutor = slobodniAutori.Find(autor => autor.Id == IDautora);
+            if (izabraniAutor == null)
+            {
+                System.Console.WriteLine("Autor sa unešenim ID-jem ne postoji ili je vec povezan sa knjigom!\n");
+                return;
+            }
+
+            List<Autor> zauzetiAutori = knjiga.IDAutora.Select(id => _autoriDAO.GetById(id)).Where(autor => autor is not null).Cast<Autor>().ToList();
+
+            if (zauzetiAutori.Contains(_autoriDAO.GetById(IDautora)))
+            {
+                System.Console.WriteLine("Autor sa unešenim ID-jem je već upisan kod knjige!\n");
+            }
+
+            izabraniAutor.IDNapisanih_knjiga.Add(knjiga.Id);
+            _autoriDAO.Update(izabraniAutor);
+
+            knjiga.IDAutora.Add(izabraniAutor.Id);
+            _knjigeDAO.Update(knjiga);
+           
+
         }
 
         private void RemoveAuthor(Knjiga knjiga)
         {
+            if (knjiga.IDAutora.Count == 0)
+            {
+                System.Console.WriteLine("Knjiga trenutno nema ni jednog autora! :c\n");
+                return;
+            }
 
+            System.Console.WriteLine("Autore koje mozete obrisati: ");
+            PrintAuthors(knjiga.IDAutora);
+            int IDautora = ConsoleViewUtils.SafeInputInt("ID autora za brisanje: ");
+
+            if (!knjiga.IDAutora.Contains(IDautora))
+            {
+                System.Console.WriteLine("Knjiga nije napisana od tog autora!\n");
+                return;
+            }
+
+            Autor autor = _autoriDAO.GetById(IDautora);
+            autor.IDNapisanih_knjiga.Remove(knjiga.Id);
+            _autoriDAO.Update(autor);
+            knjiga.IDAutora.Remove(IDautora);
+            _knjigeDAO.Update(knjiga);
         }
 
         private void PrintAuthors(IEnumerable<int> IDAutora)
@@ -178,7 +236,7 @@ namespace ConsoleClient.Views
             List<Autor> autori = IDAutora.Select(id => _autoriDAO.GetById(id)).Where(autor => autor is not null).Cast<Autor>().ToList();
             if (autori.Count == 0)
             {
-                System.Console.WriteLine("Knjiga nema ni jednog autora trenutno! :c\n");
+                System.Console.WriteLine("Knjiga trenutno nema ni jednog autora! :c\n");
                 return;
             }
 
