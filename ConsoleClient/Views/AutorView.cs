@@ -20,7 +20,7 @@ namespace ConsoleClient.Views
             _adreseDAO = adreseDAO;
         }
 
-
+        // Unos novog
         protected override Autor InputObj()
         {
             return new Autor
@@ -35,6 +35,7 @@ namespace ConsoleClient.Views
             };
         }
 
+        //Brisanje
         protected override void ObjRemoved(Autor autor)
         {
             foreach(Knjiga knjiga in _knjigeDAO.GetAll().Where(knjiga => knjiga.IDAutora.Contains(autor.Id)))
@@ -46,6 +47,7 @@ namespace ConsoleClient.Views
 
         }
 
+        //Ispis
         protected override void PrintObj(Autor autor)
         {
             string adresa = autor.IDAdrese == -1 ? "Nije dodeljena" : _adreseDAO.GetById(autor.IDAdrese)?.ToString() ?? "Nije pronađena";
@@ -59,6 +61,7 @@ namespace ConsoleClient.Views
 
         }
 
+        //Izmeni
         protected override void ReadUpdatedObj(Autor autor)
         {
             int choice;
@@ -136,7 +139,7 @@ namespace ConsoleClient.Views
                         break;
 
                     default:
-                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.");
+                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.\n");
                         break;
                 }
             } while (choice != 0);
@@ -148,7 +151,7 @@ namespace ConsoleClient.Views
 
             if (adrese.Count == 0)
             {
-                System.Console.WriteLine("Nema dostupnih adresa. Dodajte adresu kroz glavni meni!");
+                System.Console.WriteLine("Nema dostupnih adresa. Dodajte adresu kroz glavni meni!\n");
                 return;
             }
 
@@ -198,14 +201,13 @@ namespace ConsoleClient.Views
                         RemoveBook(autor);
                         break;
                     case 3:
-                        Console.WriteLine($"Knjige autora {autor.Ime} {autor.Prezime}");
+                        System.Console.WriteLine($"Knjige autora {autor.Ime} {autor.Prezime}");
                         PrintBooks(autor.IDNapisanih_knjiga);
                         break;
                     case 0:
                         break;
                     default:
-                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.");
-                        System.Console.WriteLine();
+                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.\n");
                         break;
                 }
 
@@ -259,7 +261,7 @@ namespace ConsoleClient.Views
             
             if(!autor.IDNapisanih_knjiga.Contains(IDknjige))
             {
-                System.Console.WriteLine("Autor nije napisao tu knjigu!");
+                System.Console.WriteLine("Autor nije napisao tu knjigu!\n");
                 return;
             }
 
@@ -273,7 +275,7 @@ namespace ConsoleClient.Views
             List<Knjiga> knjige = IDNapisanih_knjiga.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga is not null).Cast<Knjiga>().ToList();
             if(knjige.Count == 0)
             {
-                System.Console.WriteLine("Autor nije napisao ni jednu knjigu :c");
+                System.Console.WriteLine("Autor nije napisao ni jednu knjigu :c\n");
                 return;
             }
 
@@ -281,6 +283,25 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
 
             System.Console.WriteLine();
+        }
+
+        //Extra Menu
+        protected override string ExtraMenu =>  "Prikaži knjige autora";
+
+        protected override void ShowExtraMenu()
+        {
+            System.Console.Write("ID autora čije knjige želite videti: ");
+            int IDautora = ConsoleViewUtils.SafeInputInt();
+            System.Console.WriteLine();
+            Autor autor = _autoriDAO.GetById(IDautora);
+            if(autor == null)
+            {
+                System.Console.WriteLine("Autor sa unešenim ID-jem ne postoji!\n");
+                return;
+            }
+
+            System.Console.WriteLine($"Knjige autora {autor.Ime} {autor.Prezime}: ");
+            PrintBooks(autor.IDNapisanih_knjiga);
         }
     }
 }
