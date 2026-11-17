@@ -37,6 +37,12 @@ namespace ConsoleClient.Views
 
         protected override void ObjRemoved(Autor autor)
         {
+            foreach(Knjiga knjiga in _knjigeDAO.GetAll().Where(knjiga => knjiga.IDAutora.Contains(autor.Id)))
+            {
+                knjiga.IDAutora.Remove(autor.Id);
+                _knjigeDAO.Update(knjiga);
+            }
+
 
         }
 
@@ -172,10 +178,10 @@ namespace ConsoleClient.Views
             int choice;
             do
             {
-                System.Console.WriteLine($">---- Knjige autora {autor.Ime} {autor.Prezime} ----<");
-                PrintBooks(autor.IDNapisanih_knjiga);
-                System.Console.WriteLine("1 -  Dodaj knjigu");
-                System.Console.WriteLine("2 - Obrisi knjigu");
+                System.Console.WriteLine($">---- Izmena knjiga autora {autor.Ime} {autor.Prezime} ----<");
+                System.Console.WriteLine("1 - Dodaj knjigu");
+                System.Console.WriteLine("2 - Obriši knjigu");
+                System.Console.WriteLine("3 - Ispiši autorove knjige");
                 System.Console.WriteLine("0 - Nazad");
                 System.Console.WriteLine(">---------------------------------------<");
 
@@ -191,6 +197,10 @@ namespace ConsoleClient.Views
                     case 2:
                         RemoveBook(autor);
                         break;
+                    case 3:
+                        Console.WriteLine($"Knjige autora {autor.Ime} {autor.Prezime}");
+                        PrintBooks(autor.IDNapisanih_knjiga);
+                        break;
                     case 0:
                         break;
                     default:
@@ -205,11 +215,56 @@ namespace ConsoleClient.Views
 
         private void AddBook(Autor autor)
         {
+            List<Knjiga> slobodneKnjige = _knjigeDAO.GetAll().Where(knjiga => !knjiga.IDAutora.Contains(autor.Id) && !autor.IDNapisanih_knjiga.Contains(knjiga.Id)).ToList();
 
+            if(slobodneKnjige.Count == 0)
+            {
+                System.Console.WriteLine("Nema dostupnih knjiga za dodavanje! :c\n");
+                return;
+            }
+
+            foreach(Knjiga knjiga in slobodneKnjige)
+                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
+
+            int IDknjige = ConsoleViewUtils.SafeInputInt("Unesite ID knjige koju zelite dodati autoru: ");
+            Knjiga izabranaKnjiga = slobodneKnjige.Find(knjiga => knjiga.Id == IDknjige);
+            if(izabranaKnjiga == null)
+            {
+                System.Console.WriteLine("Knjiga sa unešenim ID-jem ne postoji!\n");
+                return;
+            }
+
+            List<Knjiga> napisaneKnjige = autor.IDNapisanih_knjiga.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga is not null).Cast<Knjiga>().ToList();
+           
+            if(napisaneKnjige.Contains(_knjigeDAO.GetById(IDknjige)))
+            {
+                System.Console.WriteLine("Knjiga sa unešenim ID-jem je već upisana kod autora!\n");
+            }
+
+            autor.IDNapisanih_knjiga.Add(izabranaKnjiga.Id);
+            _autoriDAO.Update(autor);
         }
 
         private void RemoveBook(Autor autor)
         {
+            if(autor.IDNapisanih_knjiga.Count == 0)
+            {
+                System.Console.WriteLine("Autor nije napisao ni jednu knjigu! :c\n");
+                return;
+            }
+
+            System.Console.WriteLine("Knjige koje mozete obrisati: ");
+            PrintBooks(autor.IDNapisanih_knjiga);
+            int IDknjige = ConsoleViewUtils.SafeInputInt("ID knjige za brisanje: ");
+            
+            if(!autor.IDNapisanih_knjiga.Contains(IDknjige))
+            {
+                System.Console.WriteLine("Autor nije napisao tu knjigu!");
+                return;
+            }
+
+            autor.IDNapisanih_knjiga.Remove(IDknjige);
+            _autoriDAO.Update(autor);
 
         }
 
@@ -218,12 +273,14 @@ namespace ConsoleClient.Views
             List<Knjiga> knjige = IDNapisanih_knjiga.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga is not null).Cast<Knjiga>().ToList();
             if(knjige.Count == 0)
             {
-                System.Console.WriteLine("Nije napisao ni jednu knjigu :c");
+                System.Console.WriteLine("Autor nije napisao ni jednu knjigu :c");
                 return;
             }
 
             foreach(Knjiga knjiga in knjige)
                 System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
+
+            System.Console.WriteLine();
         }
     }
 }

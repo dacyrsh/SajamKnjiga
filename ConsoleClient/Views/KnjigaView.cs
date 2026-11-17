@@ -10,7 +10,7 @@ namespace ConsoleClient.Views
         private readonly AutorDAO _autoriDAO= new();
         private readonly KnjigaDAO _knjigeDAO = new();
 
-=        //private readonly IzdavacDAO _izdavaciDAO = new();
+        //private readonly IzdavacDAO _izdavaciDAO = new();
 
         public KnjigaView(KnjigaDAO knjigeDAO, AutorDAO autoriDAO) : base(knjigeDAO, "Knjige")
         {
@@ -120,6 +120,6 @@ namespace ConsoleClient.Views
                 }
             } while (choice != 0);
         }
-        }
+        
     }
 }

@@ -18,10 +18,10 @@ namespace Core.Models
         private int godina_izdanja;
         private double cena;
         private int br_strana;
-        private List<int> IDautora;
-        private int IDizdavaca;
-        private List<int> IDkupaca; // posetiloci koji su kupili knjigu
-        private List<int> IDzelja; // posetioci koji su stavili knjigu na listu zelja
+        private List<int> IDautora = new();
+        private int IDizdavaca = -1;
+        private List<int> IDkupaca = new(); // posetiloci koji su kupili knjigu
+        private List<int> IDzelja = new(); // posetioci koji su stavili knjigu na listu zelja
 
         //gets & sets
         public string ISBN1 { get => ISBN; set => ISBN = value; }
@@ -33,7 +33,7 @@ namespace Core.Models
         public int IDIzdavaca { get => IDizdavaca; set => IDizdavaca = value; }
         public List<int> IDKupaca { get => IDkupaca; set => IDkupaca = value; }
         public List<int> IDZelja { get => IDzelja; set => IDzelja = value; }
-        internal List<int> IDAutora { get => IDautora; set => IDautora = value; }
+        public List<int> IDAutora { get => IDautora; set => IDautora = value; }
 
 
         // Konstruktori
@@ -60,23 +60,23 @@ namespace Core.Models
 
         public void FromCSV(string[] values)
         {
-            Id = int.Parse(values[1]);
-            ISBN1 = values[2];
-            Naziv = values[3];
-            Zanr = values[4];
-            Godina_izdanja = int.Parse(values[5]);
-            Cena = double.Parse(values[6]);
-            Br_strana =  int.Parse(values[7]);
-            IDIzdavaca = int.Parse(values[8]);
-            IDKupaca = CsvConversion.ToIds(values[9]);
-            IDZelja = CsvConversion.ToIds(values[10]);
-            IDAutora = CsvConversion.ToIds(values[11]);
+            Id = int.Parse(values[0]);
+            ISBN1 = values[1];
+            Naziv = values[2];
+            Zanr = values[3];
+            Godina_izdanja = int.Parse(values[4]);
+            Cena = double.Parse(values[5]);
+            Br_strana =  int.Parse(values[6]);
+            IDIzdavaca = int.Parse(values[7]);
+            IDKupaca = CsvConversion.ToIds(values[8]);
+            IDZelja = CsvConversion.ToIds(values[9]);
+            IDAutora = CsvConversion.ToIds(values[10]);
         }
 
 
         public string[] ToCSV()
         {
-            return new[] { ISBN1, Naziv, Zanr, Godina_izdanja.ToString(), Cena.ToString(), Br_strana.ToString(), IDIzdavaca.ToString(), CsvConversion.FromIds(IDKupaca), CsvConversion.FromIds(IDZelja), CsvConversion.FromIds(IDAutora) };
+            return new[] { Id.ToString(), ISBN1, Naziv, Zanr, Godina_izdanja.ToString(), Cena.ToString(), Br_strana.ToString(), IDIzdavaca.ToString(), CsvConversion.FromIds(IDKupaca), CsvConversion.FromIds(IDZelja), CsvConversion.FromIds(IDAutora) };
         }
 
     }
