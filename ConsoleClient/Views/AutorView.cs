@@ -13,12 +13,14 @@ namespace ConsoleClient.Views
         private readonly AdresaDAO _adreseDAO = new();
         //private readonly IzdavacDAO _izdavaciDAO = new();
 
-        public AutorView(AutorDAO autoriDAO, KnjigaDAO knjigeDAO) : base(autoriDAO, "Autori")
+        public AutorView(AutorDAO autoriDAO, KnjigaDAO knjigeDAO, AdresaDAO adreseDAO) : base(autoriDAO, "Autori")
         {
+            _autoriDAO = autoriDAO;
             _knjigeDAO = knjigeDAO;
+            _adreseDAO = adreseDAO;
         }
 
-
+        // Unos novog
         protected override Autor InputObj()
         {
             return new Autor
@@ -33,24 +35,40 @@ namespace ConsoleClient.Views
             };
         }
 
+        //Brisanje
         protected override void ObjRemoved(Autor autor)
         {
+            foreach(Knjiga knjiga in _knjigeDAO.GetAll().Where(knjiga => knjiga.IDAutora.Contains(autor.Id)))
+            {
+                knjiga.IDAutora.Remove(autor.Id);
+                _knjigeDAO.Update(knjiga);
+            }
+
+            /*
+            foreach(Izdavac izdavaci in _izdavaciDAO.GetAll().Where(izdavac => izdavac.IDAutora.Contains(autor.Id)))
+            {
+                izdavac.IDAutora.Remove(autor.Id);
+                _izdavaciDAO.Update(izdavac);
+            }
+            */
 
         }
 
+        //Ispis
         protected override void PrintObj(Autor autor)
         {
             string adresa = autor.IDAdrese == -1 ? "Nije dodeljena" : _adreseDAO.GetById(autor.IDAdrese)?.ToString() ?? "Nije pronađena";
 
             System.Console.WriteLine($"[{autor.Id}] {autor.Ime} {autor.Prezime} ({autor.Licna_karta})");
-            System.Console.WriteLine($"-> Datum rođenja: {autor.Datum}");
-            System.Console.WriteLine($"-> Godine iskustva: {autor.Godine_iskustva}");
-            System.Console.WriteLine($"-> Telefon: {autor.Telefon}");
-            System.Console.WriteLine($"-> E-mail: {autor.Email}");
-            System.Console.WriteLine($"-> Adresa: {adresa}");
+            System.Console.WriteLine($"---> Datum rođenja: {autor.Datum}");
+            System.Console.WriteLine($"---> Godine iskustva: {autor.Godine_iskustva}");
+            System.Console.WriteLine($"---> Telefon: {autor.Telefon}");
+            System.Console.WriteLine($"---> E-mail: {autor.Email}");
+            System.Console.WriteLine($"---> Adresa: {adresa}");
 
         }
 
+        //Izmeni
         protected override void ReadUpdatedObj(Autor autor)
         {
             int choice;
@@ -81,7 +99,7 @@ namespace ConsoleClient.Views
                         break;
 
                     case 2:
-                        System.Console.Write($"Novo prezime (Stari prezime - [{autor.Prezime}]): ");
+                        System.Console.Write($"Novo prezime (Staro prezime - [{autor.Prezime}]): ");
                         autor.Prezime = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
@@ -128,7 +146,7 @@ namespace ConsoleClient.Views
                         break;
 
                     default:
-                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.");
+                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.\n");
                         break;
                 }
             } while (choice != 0);
@@ -140,7 +158,7 @@ namespace ConsoleClient.Views
 
             if (adrese.Count == 0)
             {
-                System.Console.WriteLine("Nema dostupnih adresa. Dodajte adresu kroz glavni meni!");
+                System.Console.WriteLine("Nema dostupnih adresa. Dodajte adresu kroz glavni meni!\n");
                 return;
             }
 
@@ -170,10 +188,10 @@ namespace ConsoleClient.Views
             int choice;
             do
             {
-                System.Console.WriteLine($">---- Knjige autora {autor.Ime} {autor.Prezime} ----<");
-                PrintBooks(autor.IDNapisanih_knjiga);
-                System.Console.WriteLine("1 -  Dodaj knjigu");
-                System.Console.WriteLine("2 - Obrisi knjigu");
+                System.Console.WriteLine($">---- Izmena knjiga autora {autor.Ime} {autor.Prezime} ----<");
+                System.Console.WriteLine("1 - Dodaj knjigu");
+                System.Console.WriteLine("2 - Obriši knjigu");
+                System.Console.WriteLine("3 - Ispiši autorove knjige");
                 System.Console.WriteLine("0 - Nazad");
                 System.Console.WriteLine(">---------------------------------------<");
 
@@ -189,11 +207,14 @@ namespace ConsoleClient.Views
                     case 2:
                         RemoveBook(autor);
                         break;
+                    case 3:
+                        System.Console.WriteLine($"Knjige autora {autor.Ime} {autor.Prezime}");
+                        PrintBooks(autor.IDNapisanih_knjiga);
+                        break;
                     case 0:
                         break;
                     default:
-                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.");
-                        System.Console.WriteLine();
+                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.\n");
                         break;
                 }
 
@@ -203,12 +224,61 @@ namespace ConsoleClient.Views
 
         private void AddBook(Autor autor)
         {
+            List<Knjiga> slobodneKnjige = _knjigeDAO.GetAll().Where(knjiga => !knjiga.IDAutora.Contains(autor.Id) && !autor.IDNapisanih_knjiga.Contains(knjiga.Id)).ToList();
 
+            if(slobodneKnjige.Count == 0)
+            {
+                System.Console.WriteLine("Nema dostupnih knjiga za dodavanje! :c\n");
+                return;
+            }
+
+            foreach(Knjiga knjiga in slobodneKnjige)
+                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
+
+            int IDknjige = ConsoleViewUtils.SafeInputInt("Unesite ID knjige koju zelite dodati autoru: ");
+            Knjiga izabranaKnjiga = slobodneKnjige.Find(knjiga => knjiga.Id == IDknjige);
+            if(izabranaKnjiga == null)
+            {
+                System.Console.WriteLine("Knjiga sa unešenim ID-jem ne postoji!\n");
+                return;
+            }
+
+            List<Knjiga> napisaneKnjige = autor.IDNapisanih_knjiga.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga is not null).Cast<Knjiga>().ToList();
+           
+            if(napisaneKnjige.Contains(_knjigeDAO.GetById(IDknjige)))
+            {
+                System.Console.WriteLine("Knjiga sa unešenim ID-jem je već upisana kod autora!\n");
+            }
+
+            autor.IDNapisanih_knjiga.Add(izabranaKnjiga.Id);
+            _autoriDAO.Update(autor);
+            izabranaKnjiga.IDAutora.Add(autor.Id);
+            _knjigeDAO.Update(izabranaKnjiga);
         }
 
         private void RemoveBook(Autor autor)
         {
+            if(autor.IDNapisanih_knjiga.Count == 0)
+            {
+                System.Console.WriteLine("Autor nije napisao ni jednu knjigu! :c\n");
+                return;
+            }
 
+            System.Console.WriteLine("Knjige koje mozete obrisati: ");
+            PrintBooks(autor.IDNapisanih_knjiga);
+            int IDknjige = ConsoleViewUtils.SafeInputInt("ID knjige za brisanje: ");
+            
+            if(!autor.IDNapisanih_knjiga.Contains(IDknjige))
+            {
+                System.Console.WriteLine("Autor nije napisao tu knjigu!\n");
+                return;
+            }
+
+            autor.IDNapisanih_knjiga.Remove(IDknjige);
+            _autoriDAO.Update(autor);
+            Knjiga knjiga = _knjigeDAO.GetById(IDknjige);
+            knjiga.IDAutora.Remove(autor.Id);
+            _knjigeDAO.Update(knjiga);
         }
 
         private void PrintBooks(IEnumerable<int> IDNapisanih_knjiga)
@@ -216,12 +286,33 @@ namespace ConsoleClient.Views
             List<Knjiga> knjige = IDNapisanih_knjiga.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga is not null).Cast<Knjiga>().ToList();
             if(knjige.Count == 0)
             {
-                System.Console.WriteLine("Nije napisao ni jednu knjigu :c");
+                System.Console.WriteLine("Autor nije napisao ni jednu knjigu :c\n");
                 return;
             }
 
             foreach(Knjiga knjiga in knjige)
-                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} [{knjiga.ISBN1}]");
+                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
+
+            System.Console.WriteLine();
+        }
+
+        //Extra Menu
+        protected override string ExtraMenu =>  "Prikaži knjige autora";
+
+        protected override void ShowExtraMenu()
+        {
+            System.Console.Write("ID autora čije knjige želite videti: ");
+            int IDautora = ConsoleViewUtils.SafeInputInt();
+            System.Console.WriteLine();
+            Autor autor = _autoriDAO.GetById(IDautora);
+            if(autor == null)
+            {
+                System.Console.WriteLine("Autor sa unešenim ID-jem ne postoji!\n");
+                return;
+            }
+
+            System.Console.WriteLine($"Knjige autora {autor.Ime} {autor.Prezime}: ");
+            PrintBooks(autor.IDNapisanih_knjiga);
         }
     }
 }

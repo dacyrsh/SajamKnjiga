@@ -9,16 +9,18 @@ namespace ConsoleClient.Views
     internal class MainConsoleView
     {
         private readonly AdresaDAO _adreseDAO = new();
-        private readonly AutorDAO _autorDAO = new();
-        private readonly KnjigaDAO _knjigaDAO = new();
+        private readonly AutorDAO _autoriDAO = new();
+        private readonly KnjigaDAO _knjigeDAO = new();
 
-        private readonly AdresaView _adresaView;
-        private readonly AutorView _autorView;
+        private readonly AdresaView _adreseView;
+        private readonly AutorView _autoriView;
+        private readonly KnjigaView _knjigeView;
 
         public MainConsoleView()
         {
-            _adresaView = new AdresaView(_adreseDAO, _autorDAO);
-            _autorView = new AutorView(_autorDAO, _knjigaDAO);
+            _adreseView = new AdresaView(_adreseDAO, _autoriDAO);
+            _autoriView = new AutorView(_autoriDAO, _knjigeDAO, _adreseDAO);
+            _knjigeView = new KnjigaView(_knjigeDAO, _autoriDAO);
         }
 
         public void Run()
@@ -48,10 +50,10 @@ namespace ConsoleClient.Views
                         
                         break;
                     case 2:
-                        _autorView.Run();
+                        _autoriView.Run();
                         break;
                     case 3:
-
+                        _knjigeView.Run();
                         break;
                     case 4:
 
@@ -60,7 +62,7 @@ namespace ConsoleClient.Views
 
                         break;
                     case 6:
-                        _adresaView.Run();
+                        _adreseView.Run();
                         break;
 
                     case 0:

@@ -13,11 +13,20 @@ namespace ConsoleClient.Views
         private readonly IEntityDAO<T> _dao;
         private readonly string _objName;
 
+        protected virtual string ExtraMenu=> null;
+
+        protected virtual void ShowExtraMenu()
+        {
+
+        }
+
         protected GenericView(IEntityDAO<T> dao, string objName)
         {
             _dao = dao;
             _objName = objName;
         }
+
+
 
         // Run
 
@@ -33,6 +42,8 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("2 - Dodaj");
                 System.Console.WriteLine("3 - Izmeni");
                 System.Console.WriteLine("4 - Obriši");
+                if (ExtraMenu is not null)
+                    System.Console.WriteLine($"5 - {ExtraMenu}");
                 System.Console.WriteLine("0 - Nazad");
                 System.Console.WriteLine(">---------------------<");
 
@@ -55,7 +66,10 @@ namespace ConsoleClient.Views
                     case 4:
                         Remove();
                         break;
-                   
+
+                    case 5 when ExtraMenu is not null:
+                        ShowExtraMenu();
+                        break;
                     case 0:
                         break;
 
