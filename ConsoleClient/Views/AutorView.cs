@@ -44,6 +44,13 @@ namespace ConsoleClient.Views
                 _knjigeDAO.Update(knjiga);
             }
 
+            /*
+            foreach(Izdavac izdavaci in _izdavaciDAO.GetAll().Where(izdavac => izdavac.IDAutora.Contains(autor.Id)))
+            {
+                izdavac.IDAutora.Remove(autor.Id);
+                _izdavaciDAO.Update(izdavac);
+            }
+            */
 
         }
 
@@ -245,6 +252,8 @@ namespace ConsoleClient.Views
 
             autor.IDNapisanih_knjiga.Add(izabranaKnjiga.Id);
             _autoriDAO.Update(autor);
+            izabranaKnjiga.IDAutora.Add(autor.Id);
+            _knjigeDAO.Update(izabranaKnjiga);
         }
 
         private void RemoveBook(Autor autor)
@@ -267,7 +276,9 @@ namespace ConsoleClient.Views
 
             autor.IDNapisanih_knjiga.Remove(IDknjige);
             _autoriDAO.Update(autor);
-
+            Knjiga knjiga = _knjigeDAO.GetById(IDknjige);
+            knjiga.IDAutora.Remove(autor.Id);
+            _knjigeDAO.Update(knjiga);
         }
 
         private void PrintBooks(IEnumerable<int> IDNapisanih_knjiga)
