@@ -45,11 +45,11 @@ namespace ConsoleClient.Views
             string adresa = autor.IDAdrese == -1 ? "Nije dodeljena" : _adreseDAO.GetById(autor.IDAdrese)?.ToString() ?? "Nije pronađena";
 
             System.Console.WriteLine($"[{autor.Id}] {autor.Ime} {autor.Prezime} ({autor.Licna_karta})");
-            System.Console.WriteLine($"-> Datum rođenja: {autor.Datum}");
-            System.Console.WriteLine($"-> Godine iskustva: {autor.Godine_iskustva}");
-            System.Console.WriteLine($"-> Telefon: {autor.Telefon}");
-            System.Console.WriteLine($"-> E-mail: {autor.Email}");
-            System.Console.WriteLine($"-> Adresa: {adresa}");
+            System.Console.WriteLine($"---> Datum rođenja: {autor.Datum}");
+            System.Console.WriteLine($"---> Godine iskustva: {autor.Godine_iskustva}");
+            System.Console.WriteLine($"---> Telefon: {autor.Telefon}");
+            System.Console.WriteLine($"---> E-mail: {autor.Email}");
+            System.Console.WriteLine($"---> Adresa: {adresa}");
 
         }
 
@@ -223,7 +223,7 @@ namespace ConsoleClient.Views
             }
 
             foreach(Knjiga knjiga in knjige)
-                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} [{knjiga.ISBN1}]");
+                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
         }
     }
 }

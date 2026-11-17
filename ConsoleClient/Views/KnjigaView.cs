@@ -39,7 +39,11 @@ namespace ConsoleClient.Views
 
         protected override void PrintObj(Knjiga knjiga)
         {
-           
+            System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
+            System.Console.WriteLine($"--->Žanr: {knjiga.Zanr}");
+            System.Console.WriteLine($"--->Godina izdanja: {knjiga.Godina_izdanja}");
+            System.Console.WriteLine($"--->Broj strana: {knjiga.Br_strana}");
+            System.Console.WriteLine($"--->Cena: {Math.Round(knjiga.Cena,2)}");
         }
 
         protected override void ReadUpdatedObj(Knjiga knjiga)
