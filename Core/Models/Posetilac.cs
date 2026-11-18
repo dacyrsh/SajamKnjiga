@@ -7,8 +7,8 @@ using Core.Utils;
 
 namespace Core.Models
 {
-    enum TipStatusa { Regular = 'R', Vip = 'V'};
-    internal class Posetilac : ISerializable, I_ID
+    public enum TipStatusa { Regular = 'R', Vip = 'V'};
+    public class Posetilac : ISerializable, I_ID
     {
         // polja
         public int Id { get; set; }
@@ -35,10 +35,10 @@ namespace Core.Models
         public string Clanska_karta { get => clanska_karta; set => clanska_karta = value; }
         public int Godina_clanstva { get => godina_clanstva; set => godina_clanstva = value; }
         public double Ocena_recenzija { get => ocena_recenzija; set => ocena_recenzija = value; }
-        internal int IDAdrese { get => IdAdrese; set => IdAdrese = value; }
-        internal TipStatusa Status { get => status; set => status = value; }
-        internal List<int> Kupljene_knjige { get => kupljene_knjige; set => kupljene_knjige = value; }
-        internal List<int> Lista_zelja { get => lista_zelja; set => lista_zelja = value; }
+        public int IDAdrese { get => IdAdrese; set => IdAdrese = value; }
+        public TipStatusa Status { get => status; set => status = value; }
+        public List<int> Kupljene_knjige { get => kupljene_knjige; set => kupljene_knjige = value; }
+        public List<int> Lista_zelja { get => lista_zelja; set => lista_zelja = value; }
 
         // konstruktori
         public Posetilac() { }

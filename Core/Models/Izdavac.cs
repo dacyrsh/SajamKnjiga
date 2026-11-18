@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Core.Models
 {
-    internal class Izdavac : ISerializable, I_ID
+    public class Izdavac : ISerializable, I_ID
     {
         // polja
         public int Id { get; set; }
@@ -20,9 +20,9 @@ namespace Core.Models
         // get i set metode
         public string Sifra { get => sifra; set => sifra = value; }
         public string Naziv { get => naziv; set => naziv = value; }
-        internal int IDsefa { get => Idsefa; set => Idsefa = value; }
-        internal List<int> Autori { get => autori; set => autori = value; }
-        internal List<int> Knjige { get => knjige; set => knjige = value; }
+        public int IDsefa { get => Idsefa; set => Idsefa = value; }
+        public List<int> Autori { get => autori; set => autori = value; }
+        public List<int> Knjige { get => knjige; set => knjige = value; }
 
         // konstruktori
         public Izdavac() { }
