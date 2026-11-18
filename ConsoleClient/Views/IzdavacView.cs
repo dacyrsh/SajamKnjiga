@@ -27,7 +27,8 @@ namespace ConsoleClient.Views
 
         protected override void PrintObj(Izdavac izdavac)
         {
-            throw new NotImplementedException();
+            System.Console.WriteLine($"[{izdavac.Id}] {izdavac.Naziv} ({izdavac.Sifra})");
+            System.Console.WriteLine($"---> ID sefa: {izdavac.IDsefa}");
         }
 
         protected override void ReadUpdatedObj(Izdavac izdavac)
