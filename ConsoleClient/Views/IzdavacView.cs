@@ -17,7 +17,12 @@ namespace ConsoleClient.Views
         }
         protected override Izdavac InputObj()
         {
-            throw new NotImplementedException();
+            return new Izdavac 
+            { 
+                Sifra = ConsoleViewUtils.SafeInputStr("Sifra: "),
+                Naziv = ConsoleViewUtils.SafeInputStr("Naziv: "),
+                IDsefa = ConsoleViewUtils.SafeInputInt("ID sefa: ")
+            };
         }
 
         protected override void PrintObj(Izdavac izdavac)
