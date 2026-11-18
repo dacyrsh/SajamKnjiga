@@ -11,10 +11,13 @@ namespace ConsoleClient.Views
     internal class IzdavacView : GenericView<Izdavac>
     {
         private readonly IzdavacDAO _izdavacDAO = new();
-        public IzdavacView(IzdavacDAO izdavacDAO) : base(izdavacDAO, "Izdavaci")
+        private readonly KnjigaDAO _knjigeDAO = new();
+        public IzdavacView(IzdavacDAO izdavacDAO, KnjigaDAO knjigeDAO) : base(izdavacDAO, "Izdavaci")
         {
             _izdavacDAO = izdavacDAO;
+            _knjigeDAO = knjigeDAO;
         }
+        // unos izdavaca
         protected override Izdavac InputObj()
         {
             return new Izdavac 
@@ -24,13 +27,13 @@ namespace ConsoleClient.Views
                 IDsefa = ConsoleViewUtils.SafeInputInt("ID sefa: ")
             };
         }
-
+        // ispis izdavaca
         protected override void PrintObj(Izdavac izdavac)
         {
             System.Console.WriteLine($"[{izdavac.Id}] {izdavac.Naziv} ({izdavac.Sifra})");
             System.Console.WriteLine($"---> ID sefa: {izdavac.IDsefa}");
         }
-
+        // izmene izdavaca
         protected override void ReadUpdatedObj(Izdavac izdavac)
         {
             int choice;
@@ -72,10 +75,14 @@ namespace ConsoleClient.Views
                 }
             } while (choice != 0);
         }
-
+        // brisanje izdavaca
         protected override void ObjRemoved(Izdavac izdavac)
         {
-            throw new NotImplementedException();
+            foreach (Knjiga knjiga in _knjigeDAO.GetAll().Where(knjiga => knjiga.IDIzdavaca == izdavac.Id))
+            {
+                knjiga.IDIzdavaca=-1;
+                _knjigeDAO.Update(knjiga);
+            }
         }
     }
 }
