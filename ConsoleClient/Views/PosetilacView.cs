@@ -18,6 +18,7 @@ namespace ConsoleClient.Views
             _posetiociDAO = posetiociDAO;
             _adreseDAO = adreseDAO;
         }
+        // unos
         protected override Posetilac InputObj()
         {
             return new Posetilac
@@ -33,15 +34,32 @@ namespace ConsoleClient.Views
                 Ocena_recenzija = 0
             };
         }
+        // prikaz posetioca
         protected override void PrintObj(Posetilac posetilac)
         {
-            throw new NotImplementedException();
-        }
+            string adresa =
+                posetilac.IDAdrese == -1
+                ? "Nije dodeljena"
+                : _adreseDAO.GetById(posetilac.IDAdrese)?.ToString()
+                    ?? "Nije pronadjena";
 
+            System.Console.WriteLine(
+                $"[{posetilac.Id}] {posetilac.Ime} {posetilac.Prezime} ({posetilac.Clanska_karta})");
+
+            System.Console.WriteLine($"--> Datum rodjenja: {posetilac.DatumRodjenja}");
+            System.Console.WriteLine($"--> Telefon: {posetilac.Telefon}");
+            System.Console.WriteLine($"--> E-mail: {posetilac.Email}");
+            System.Console.WriteLine($"--> Status: {posetilac.Status}");
+            System.Console.WriteLine($"--> Godina clanstva: {posetilac.Godina_clanstva}");
+            System.Console.WriteLine($"--> Prosecna ocena: {posetilac.Ocena_recenzija}");
+            System.Console.WriteLine($"--> Adresa: {adresa}");
+        }
+        // izmena posetilaca
         protected override void ReadUpdatedObj(Posetilac posetilac)
         {
             throw new NotImplementedException();
         }
+        // brisanje posetilaca
         protected override void ObjRemoved(Posetilac posetilac)
         {
             throw new NotImplementedException();
