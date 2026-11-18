@@ -18,8 +18,8 @@ namespace Core.Models
         private string komentar;
 
         // get i set metode
-        internal int IDposetioca { get => IdPosetioca; set => IdPosetioca = value; }
-        internal int IDknjige { get => IdKnjige; set => IdKnjige = value; }
+        public int IDposetioca { get => IdPosetioca; set => IdPosetioca = value; }
+        public int IDknjige { get => IdKnjige; set => IdKnjige = value; }
         public DateOnly Datum_kupovine { get => datum_kupovine; set => datum_kupovine = value; }
         public int Ocena { get => ocena; set => ocena = value; }
         public string Komentar { get => komentar; set => komentar = value; }
