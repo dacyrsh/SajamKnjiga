@@ -20,7 +20,18 @@ namespace ConsoleClient.Views
         }
         protected override Posetilac InputObj()
         {
-            throw new NotImplementedException();
+            return new Posetilac
+            {
+                Ime = ConsoleViewUtils.SafeInputStr("Ime: "),
+                Prezime = ConsoleViewUtils.SafeInputStr("Prezime: "),
+                DatumRodjenja = ConsoleViewUtils.SafeInputDateOnly("Datum rodjenja [yyyy-MM-dd]: "),
+                Telefon = ConsoleViewUtils.SafeInputStr("Telefon: "),
+                Email = ConsoleViewUtils.SafeInputStr("E-mail: "),
+                Clanska_karta = ConsoleViewUtils.SafeInputStr("Broj clanske karte: "),
+                Godina_clanstva = ConsoleViewUtils.SafeInputInt("Godina clanstva: "),
+                Status = TipStatusa.Regular,
+                Ocena_recenzija = 0
+            };
         }
         protected override void PrintObj(Posetilac posetilac)
         {
