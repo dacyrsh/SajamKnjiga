@@ -7,7 +7,7 @@ using Core.Utils;
 
 namespace Core.Models
 {
-    internal class Kupovina : ISerializable, I_ID
+    public class Kupovina : ISerializable, I_ID
     {
         // polja
         public int Id { get; set; }

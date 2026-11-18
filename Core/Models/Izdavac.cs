@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Core.Models
 {
-    internal class Izdavac : ISerializable, I_ID
+    public class Izdavac : ISerializable, I_ID
     {
         // polja
         public int Id { get; set; }

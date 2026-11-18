@@ -5,7 +5,7 @@ using Core.Models;
 
 namespace Core.DAO
 {
-    internal class PosetilacDAO : GenericDAO<Posetilac>
+    public class PosetilacDAO : GenericDAO<Posetilac>
     {
         public PosetilacDAO() : base("posetioci.txt")
         {

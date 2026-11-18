@@ -7,8 +7,8 @@ using Core.Utils;
 
 namespace Core.Models
 {
-    enum TipStatusa { Regular = 'R', Vip = 'V'};
-    internal class Posetilac : ISerializable, I_ID
+    public enum TipStatusa { Regular = 'R', Vip = 'V'};
+    public class Posetilac : ISerializable, I_ID
     {
         // polja
         public int Id { get; set; }

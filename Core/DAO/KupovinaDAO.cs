@@ -5,7 +5,7 @@ using Core.Models;
 
 namespace Core.DAO
 {
-    internal class KupovinaDAO : GenericDAO<Kupovina>
+    public class KupovinaDAO : GenericDAO<Kupovina>
     {
         public KupovinaDAO(): base("kupovina.txt")
         {
