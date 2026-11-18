@@ -33,7 +33,44 @@ namespace ConsoleClient.Views
 
         protected override void ReadUpdatedObj(Izdavac izdavac)
         {
-            throw new NotImplementedException();
+            int choice;
+            do
+            {
+                System.Console.WriteLine($">--- Izmena izdavaca: {izdavac.Naziv}---<");
+                System.Console.WriteLine("1 - Sifra");
+                System.Console.WriteLine("2 - Naziv");
+                System.Console.WriteLine("3 - ID sefa");
+                System.Console.WriteLine("0 - Zavrsi izmenu");
+                System.Console.WriteLine("Unesite broj vaseg izbora: ");
+                choice = ConsoleViewUtils.SafeInputInt();
+                System.Console.WriteLine();
+
+                switch(choice)
+                {
+                    case 1:
+                        System.Console.Write($"Nova sifra (stara sifra - [{izdavac.Sifra}]): ");
+                        izdavac.Sifra = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
+                        break;
+                    case 2:
+                        System.Console.Write($"Novi naziv (stari naziv - [{izdavac.Naziv}]): ");
+                        izdavac.Naziv = ConsoleViewUtils.SafeInputStr();
+                        System.Console.WriteLine();
+                        break;
+                    case 3:
+                        System.Console.Write($"Novi ID sefa (stari ID sefa - [{izdavac.IDsefa}]): ");
+                        izdavac.IDsefa = ConsoleViewUtils.SafeInputInt();
+                        System.Console.WriteLine();
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.Console.WriteLine("Greska!!! Uneseni broj nije u opsegu");
+                        System.Console.WriteLine();
+                        break;
+
+                }
+            } while (choice != 0);
         }
 
         protected override void ObjRemoved(Izdavac izdavac)
