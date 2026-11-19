@@ -152,9 +152,34 @@ namespace ConsoleClient.Views
             } while (choice != 0);
         }
 
+        // izmena adrese
         private void EditAddress(Posetilac posetilac)
         {
-
+            List<Adresa> adrese = _adreseDAO.GetAll();
+            if (adrese.Count == 0)
+            {
+                System.Console.WriteLine("Nema dostupnih adresa.");
+                System.Console.WriteLine();
+                return;
+            }
+            System.Console.WriteLine("Dostupne adrese:");
+            foreach (Adresa adresa in adrese)
+            {
+                System.Console.WriteLine($"[{adresa.Id}] - {adresa.ToString()}");
+            }
+            int novaAdresa =ConsoleViewUtils.SafeInputInt("ID adrese [-1 ukloni adresu]: ");
+            if (novaAdresa == -1)
+            {
+                posetilac.IDAdrese = -1;
+                return;
+            }
+            if (_adreseDAO.GetById(novaAdresa) == null)
+            {
+                System.Console.WriteLine("Adresa ne postoji!");
+                System.Console.WriteLine();
+                return;
+            }
+            posetilac.IDAdrese = novaAdresa;
         }
 
         // brisanje posetilaca
