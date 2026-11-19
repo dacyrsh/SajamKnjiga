@@ -42,10 +42,61 @@ namespace ConsoleClient.Views
             System.Console.WriteLine($"--> Komentar: {kupovina.Komentar}");
             System.Console.WriteLine();
         }
-
+        // izmena kupovine
         protected override void ReadUpdatedObj(Kupovina kupovina)
         {
-            throw new NotImplementedException();
+            int choice;
+
+            do
+            {
+                System.Console.WriteLine(
+                    $">---- Izmena kupovine ID {kupovina.Id} ----<");
+
+                System.Console.WriteLine("1 - ID posetioca");
+                System.Console.WriteLine("2 - ID knjige");
+                System.Console.WriteLine("3 - Datum kupovine");
+                System.Console.WriteLine("4 - Ocena");
+                System.Console.WriteLine("5 - Komentar");
+                System.Console.WriteLine("0 - Zavrsi izmenu");
+
+                choice = ConsoleViewUtils.SafeInputInt();
+
+                switch (choice)
+                {
+                    case 1:
+                        System.Console.Write($"Novi ID posetioca (Stari - [{kupovina.IDposetioca}]): ");
+                        kupovina.IDposetioca = ConsoleViewUtils.SafeInputInt();
+                        break;
+
+                    case 2:
+                        System.Console.Write($"Novi ID knjige (Stari - [{kupovina.IDknjige}]): ");
+                        kupovina.IDknjige = ConsoleViewUtils.SafeInputInt();
+                        break;
+
+                    case 3:
+                        System.Console.Write($"Novi datum (Stari - [{kupovina.Datum_kupovine:yyyy-MM-dd}]): ");
+                        kupovina.Datum_kupovine = ConsoleViewUtils.SafeInputDateOnly();
+                        break;
+
+                    case 4:
+                        System.Console.Write($"Nova ocena (Stara - [{kupovina.Ocena}]): ");
+                        kupovina.Ocena = ConsoleViewUtils.SafeInputInt();
+                        break;
+
+                    case 5:
+                        System.Console.Write($"Novi komentar (Stari - [{kupovina.Komentar}]): ");
+                        kupovina.Komentar = ConsoleViewUtils.SafeInputStr();
+                        break;
+
+                    case 0:
+                        break;
+
+                    default:
+                        System.Console.WriteLine("Greska!!! Uneseni broj nije u opsegu.");
+                        System.Console.WriteLine();
+                        break;
+                }
+            } while (choice != 0);
         }
 
         protected override void ObjRemoved(Kupovina kupovina)
