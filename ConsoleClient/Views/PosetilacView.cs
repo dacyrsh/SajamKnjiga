@@ -72,11 +72,12 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("1 - Ime");
                 System.Console.WriteLine("2 - Prezime");
                 System.Console.WriteLine("3 - Datum rodjenja");
-                System.Console.WriteLine("4 - Telefon");
-                System.Console.WriteLine("5 - E-mail");
-                System.Console.WriteLine("6 - Broj clanske karte");
-                System.Console.WriteLine("7 - Godina clanstva");
-                System.Console.WriteLine("8 - Status");
+                System.Console.WriteLine("4 - Adresa");
+                System.Console.WriteLine("5 - Telefon");
+                System.Console.WriteLine("6 - E-mail");
+                System.Console.WriteLine("7 - Broj clanske karte");
+                System.Console.WriteLine("8 - Godina clanstva");
+                System.Console.WriteLine("9 - Status");
                 System.Console.WriteLine("0 - Zavrsi izmenu");
                 System.Console.WriteLine(">---------------------------------------------<");
                 System.Console.Write("Unesite broj vaseg izbora: ");
@@ -104,30 +105,33 @@ namespace ConsoleClient.Views
                         break;
 
                     case 4:
+                        EditAddress(posetilac);
+                        break;
+                    case 5:
                         System.Console.Write($"Novi telefon (Stari telefon - [{posetilac.Telefon}]): ");
                         posetilac.Telefon = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
 
-                    case 5:
+                    case 6:
                         System.Console.Write($"Novi e-mail (Stari e-mail - [{posetilac.Email}]): ");
                         posetilac.Email = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
 
-                    case 6:
+                    case 7:
                         System.Console.Write($"Nova clanska karta (Stara clanska karta - [{posetilac.Clanska_karta}]): ");
                         posetilac.Clanska_karta = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
 
-                    case 7:
+                    case 8:
                         System.Console.Write($"Nova godina clanstva (Stara godina clanstva - [{posetilac.Godina_clanstva}]): ");
                         posetilac.Godina_clanstva = ConsoleViewUtils.SafeInputInt();
                         System.Console.WriteLine();
                         break;
 
-                    case 8:
+                    case 9:
                         System.Console.WriteLine($"Trenutni status: {posetilac.Status}");
                         System.Console.WriteLine("1 - Regular");
                         System.Console.WriteLine("2 - VIP");
@@ -147,6 +151,12 @@ namespace ConsoleClient.Views
                 }
             } while (choice != 0);
         }
+
+        private void EditAddress(Posetilac posetilac)
+        {
+
+        }
+
         // brisanje posetilaca
         protected override void ObjRemoved(Posetilac posetilac)
         {
