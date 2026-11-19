@@ -244,8 +244,29 @@ namespace ConsoleClient.Views
             System.Console.WriteLine("Knjiga dodata na listu zelja.\n");
         }
         private void RemoveBookFromWishList(Posetilac posetilac)
-        { 
+        {
+            if (posetilac.Lista_zelja.Count == 0)
+            {
+                System.Console.WriteLine("Lista zelja je prazna.\n");
+                return;
+            }
+            PrintWishList(posetilac);
+            int IDknjige =ConsoleViewUtils.SafeInputInt("ID knjige za uklanjanje: ");
+            if (!posetilac.Lista_zelja.Contains(IDknjige))
+            {
+                System.Console.WriteLine("Knjiga nije na listi zelja.\n");
+                return;
+            }
+            posetilac.Lista_zelja.Remove(IDknjige);
+            _posetiociDAO.Update(posetilac);
+            Knjiga knjiga =_knjigeDAO.GetById(IDknjige);
 
+            if (knjiga != null)
+            {
+                knjiga.IDZelja.Remove(posetilac.Id);
+                _knjigeDAO.Update(knjiga);
+            }
+            System.Console.WriteLine("Knjiga uklonjena sa liste zelja.\n");
         }
         private void PrintWishList(Posetilac posetilac)
         {
