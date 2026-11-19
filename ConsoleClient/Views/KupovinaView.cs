@@ -20,9 +20,18 @@ namespace ConsoleClient.Views
             _posetiociDAO = posetiociDAO;
             _knjigeDAO = knjigeDAO;
         }
+        // unos kupovine
         protected override Kupovina InputObj()
         {
-            throw new NotImplementedException();
+            return new Kupovina
+            {
+                IDposetioca = ConsoleViewUtils.SafeInputInt("ID posetioca: "),
+                IDknjige = ConsoleViewUtils.SafeInputInt("ID knjige: "),
+                Datum_kupovine =
+            ConsoleViewUtils.SafeInputDateOnly("Datum kupovine [yyyy-MM-dd]: "),
+                Ocena = ConsoleViewUtils.SafeInputInt("Ocena [1-5]: "),
+                Komentar = ConsoleViewUtils.SafeInputStr("Komentar: ")
+            };
         }
 
         protected override void PrintObj(Kupovina kupovina)
