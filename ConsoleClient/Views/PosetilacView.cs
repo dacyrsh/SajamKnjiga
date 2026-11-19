@@ -270,7 +270,18 @@ namespace ConsoleClient.Views
         }
         private void PrintWishList(Posetilac posetilac)
         {
+            List<Knjiga> knjige =posetilac.Lista_zelja.Select(id => _knjigeDAO.GetById(id)).Where(k => k != null).Cast<Knjiga>().ToList();
 
+            if (knjige.Count == 0)
+            {
+                System.Console.WriteLine("Lista zelja je prazna.\n");
+                return;
+            }
+            foreach (Knjiga knjiga in knjige)
+            {
+                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
+            }
+            System.Console.WriteLine();
         }
 
     }
