@@ -219,7 +219,29 @@ namespace ConsoleClient.Views
         }
         private void AddBookToWishList(Posetilac posetilac)
         {
+            List<Knjiga> knjige =_knjigeDAO.GetAll().Where(k => !posetilac.Lista_zelja.Contains(k.Id)).ToList();
 
+            if (knjige.Count == 0)
+            {
+                System.Console.WriteLine("Nema dostupnih knjiga.\n");
+                return;
+            }
+            foreach (Knjiga knjiga in knjige)
+            {
+                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv}");
+            }
+            int IDknjige =ConsoleViewUtils.SafeInputInt("ID knjige: ");
+            Knjiga knjigaZaDodavanje =_knjigeDAO.GetById(IDknjige);
+            if (knjigaZaDodavanje == null)
+            {
+                System.Console.WriteLine("Knjiga ne postoji!\n");
+                return;
+            }
+            posetilac.Lista_zelja.Add(IDknjige);
+            _posetiociDAO.Update(posetilac);
+            knjigaZaDodavanje.IDZelja.Add(posetilac.Id);
+            _knjigeDAO.Update(knjigaZaDodavanje);
+            System.Console.WriteLine("Knjiga dodata na listu zelja.\n");
         }
         private void RemoveBookFromWishList(Posetilac posetilac)
         { 
