@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 
 namespace Core.Utils
 {
-    internal static class CsvConversion
+    public static class CsvConversion
     {
-        public static string ListDelimiter = ",";
+        private const string ListDelimiter = ",";
+        private const string DateFormat = "yyyy-MM-dd";
 
         public static List<int> ToIds(string value)
         {
@@ -18,6 +20,16 @@ namespace Core.Utils
         public static string FromIds(IEnumerable<int> ids)
         {
             return string.Join(ListDelimiter, ids);
+        }
+
+        public static string  FromDate(DateOnly date)
+        {
+            return date.ToString(DateFormat, CultureInfo.InvariantCulture);
+        }
+
+        public static DateOnly ToDate(string date)
+        {
+            return DateOnly.ParseExact(date, DateFormat, CultureInfo.InvariantCulture);
         }
 
 

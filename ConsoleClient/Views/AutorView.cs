@@ -59,7 +59,7 @@ namespace ConsoleClient.Views
             string adresa = autor.IDAdrese == -1 ? "Nije dodeljena" : _adreseDAO.GetById(autor.IDAdrese)?.ToString() ?? "Nije pronađena";
 
             System.Console.WriteLine($"[{autor.Id}] {autor.Ime} {autor.Prezime} ({autor.Licna_karta})");
-            System.Console.WriteLine($"---> Datum rođenja: {autor.Datum}");
+            System.Console.WriteLine($"---> Datum rođenja: {CsvConversion.FromDate(autor.Datum)}");
             System.Console.WriteLine($"---> Godine iskustva: {autor.Godine_iskustva}");
             System.Console.WriteLine($"---> Telefon: {autor.Telefon}");
             System.Console.WriteLine($"---> E-mail: {autor.Email}");
@@ -86,7 +86,7 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("9 - Napisane knjige");
                 System.Console.WriteLine("0 - Završi izmenu");
                 System.Console.WriteLine(">-------------------------------------------------<");
-                System.Console.WriteLine("Unesite broj vašeg izbora: ");
+                System.Console.Write("Unesite broj vašeg izbora: ");
                 choice = ConsoleViewUtils.SafeInputInt();
                 System.Console.WriteLine();
 
@@ -105,7 +105,7 @@ namespace ConsoleClient.Views
                         break;
 
                     case 3:
-                        System.Console.Write($"Novi datum (Stari datum - [{autor.Datum.ToString("yyyy-MM-dd")}]): ");
+                        System.Console.Write($"Novi datum (Stari datum - [{CsvConversion.FromDate(autor.Datum)}]): ");
                         autor.Datum = ConsoleViewUtils.SafeInputDateOnly();
                         System.Console.WriteLine();
                         break;

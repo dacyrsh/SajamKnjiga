@@ -61,7 +61,7 @@ namespace Core.Models
             Id = int.Parse(values[0]);
             Ime = values[1];
             Prezime=values[2];
-            DatumRodjenja = DateOnly.Parse(values[3]);
+            DatumRodjenja = CsvConversion.ToDate(values[3]);
             IDAdrese = int.Parse(values[4]);
             Telefon = values[5];
             Email = values[6];
@@ -79,7 +79,7 @@ namespace Core.Models
                 Id.ToString(),
                 Ime,
                 Prezime, 
-                DatumRodjenja.ToString("yyyy-MM-dd"),
+                CsvConversion.FromDate(DatumRodjenja),
                 IDAdrese.ToString(),
                 Telefon,
                 Email,

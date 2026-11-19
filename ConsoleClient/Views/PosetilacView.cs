@@ -52,7 +52,7 @@ namespace ConsoleClient.Views
             System.Console.WriteLine(
                 $"[{posetilac.Id}] {posetilac.Ime} {posetilac.Prezime} ({posetilac.Clanska_karta})");
 
-            System.Console.WriteLine($"--> Datum rodjenja: {posetilac.DatumRodjenja}");
+            System.Console.WriteLine($"--> Datum rodjenja: {CsvConversion.FromDate(posetilac.DatumRodjenja)}");
             System.Console.WriteLine($"--> Telefon: {posetilac.Telefon}");
             System.Console.WriteLine($"--> E-mail: {posetilac.Email}");
             System.Console.WriteLine($"--> Status: {posetilac.Status}");
@@ -97,7 +97,7 @@ namespace ConsoleClient.Views
                         break;
 
                     case 3:
-                        System.Console.Write($"Novi datum (Stari datum - [{posetilac.DatumRodjenja:yyyy-MM-dd}]): ");
+                        System.Console.Write($"Novi datum (Stari datum - [{CsvConversion.FromDate(posetilac.DatumRodjenja)}]): ");
                         posetilac.DatumRodjenja = ConsoleViewUtils.SafeInputDateOnly();
                         System.Console.WriteLine();
                         break;

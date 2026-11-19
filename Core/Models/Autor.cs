@@ -60,7 +60,7 @@ namespace Core.Models
             Id = int.Parse(values[0]);
             Ime = values[1];
             Prezime = values[2];
-            Datum = DateOnly.Parse(values[3]);
+            Datum = CsvConversion.ToDate(values[3]);
             Telefon = values[4];
             IDAdrese = int.Parse(values[5]);
             Email = values[6];
@@ -71,7 +71,7 @@ namespace Core.Models
 
         public string[] ToCSV()
         {
-            return new[] { Id.ToString(), Ime, Prezime, Datum.ToString(), Telefon, IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString(), CsvConversion.FromIds(IDnapisanih_knjiga)};
+            return new[] { Id.ToString(), Ime, Prezime, CsvConversion.FromDate(Datum), Telefon, IDAdrese.ToString(), Email, Licna_karta, Godine_iskustva.ToString(), CsvConversion.FromIds(IDnapisanih_knjiga)};
         }
     }
 }

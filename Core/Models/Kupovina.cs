@@ -44,7 +44,7 @@ namespace Core.Models
             Id = int.Parse(values[0]);
             IDposetioca = int.Parse(values[1]);
             IDknjige = int.Parse(values[2]);
-            Datum_kupovine = DateOnly.Parse(values[3]);
+            Datum_kupovine = CsvConversion.ToDate(values[3]);
             Ocena = int.Parse(values[4]);
             Komentar = values[5];
 
@@ -56,7 +56,7 @@ namespace Core.Models
                 Id.ToString(),
                 IDposetioca.ToString(),
                 IDknjige.ToString(),
-                Datum_kupovine.ToString(),
+                CsvConversion.FromDate(Datum_kupovine),
                 Ocena.ToString(),
                 Komentar
             };
