@@ -44,6 +44,7 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("2 - Naziv");
                 System.Console.WriteLine("3 - ID sefa");
                 System.Console.WriteLine("0 - Zavrsi izmenu");
+                System.Console.WriteLine(">-------------------------------------------------<");
                 System.Console.WriteLine("Unesite broj vaseg izbora: ");
                 choice = ConsoleViewUtils.SafeInputInt();
                 System.Console.WriteLine();

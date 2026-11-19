@@ -58,7 +58,8 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("4 - Ocena");
                 System.Console.WriteLine("5 - Komentar");
                 System.Console.WriteLine("0 - Zavrsi izmenu");
-
+                System.Console.WriteLine(">-------------------------------------------------<");
+                System.Console.WriteLine("Unesite broj vaseg izbora: ");
                 choice = ConsoleViewUtils.SafeInputInt();
 
                 switch (choice)
