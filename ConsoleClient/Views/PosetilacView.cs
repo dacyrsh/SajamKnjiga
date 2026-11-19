@@ -72,11 +72,12 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("1 - Ime");
                 System.Console.WriteLine("2 - Prezime");
                 System.Console.WriteLine("3 - Datum rodjenja");
-                System.Console.WriteLine("4 - Telefon");
-                System.Console.WriteLine("5 - E-mail");
-                System.Console.WriteLine("6 - Broj clanske karte");
-                System.Console.WriteLine("7 - Godina clanstva");
-                System.Console.WriteLine("8 - Status");
+                System.Console.WriteLine("4 - Adresa");
+                System.Console.WriteLine("5 - Telefon");
+                System.Console.WriteLine("6 - E-mail");
+                System.Console.WriteLine("7 - Broj clanske karte");
+                System.Console.WriteLine("8 - Godina clanstva");
+                System.Console.WriteLine("9 - Status");
                 System.Console.WriteLine("0 - Zavrsi izmenu");
                 System.Console.WriteLine(">---------------------------------------------<");
                 System.Console.Write("Unesite broj vaseg izbora: ");
@@ -104,30 +105,33 @@ namespace ConsoleClient.Views
                         break;
 
                     case 4:
+                        EditAddress(posetilac);
+                        break;
+                    case 5:
                         System.Console.Write($"Novi telefon (Stari telefon - [{posetilac.Telefon}]): ");
                         posetilac.Telefon = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
 
-                    case 5:
+                    case 6:
                         System.Console.Write($"Novi e-mail (Stari e-mail - [{posetilac.Email}]): ");
                         posetilac.Email = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
 
-                    case 6:
+                    case 7:
                         System.Console.Write($"Nova clanska karta (Stara clanska karta - [{posetilac.Clanska_karta}]): ");
                         posetilac.Clanska_karta = ConsoleViewUtils.SafeInputStr();
                         System.Console.WriteLine();
                         break;
 
-                    case 7:
+                    case 8:
                         System.Console.Write($"Nova godina clanstva (Stara godina clanstva - [{posetilac.Godina_clanstva}]): ");
                         posetilac.Godina_clanstva = ConsoleViewUtils.SafeInputInt();
                         System.Console.WriteLine();
                         break;
 
-                    case 8:
+                    case 9:
                         System.Console.WriteLine($"Trenutni status: {posetilac.Status}");
                         System.Console.WriteLine("1 - Regular");
                         System.Console.WriteLine("2 - VIP");
@@ -147,6 +151,37 @@ namespace ConsoleClient.Views
                 }
             } while (choice != 0);
         }
+
+        // izmena adrese
+        private void EditAddress(Posetilac posetilac)
+        {
+            List<Adresa> adrese = _adreseDAO.GetAll();
+            if (adrese.Count == 0)
+            {
+                System.Console.WriteLine("Nema dostupnih adresa.");
+                System.Console.WriteLine();
+                return;
+            }
+            System.Console.WriteLine("Dostupne adrese:");
+            foreach (Adresa adresa in adrese)
+            {
+                System.Console.WriteLine($"[{adresa.Id}] - {adresa.ToString()}");
+            }
+            int novaAdresa =ConsoleViewUtils.SafeInputInt("ID adrese [-1 ukloni adresu]: ");
+            if (novaAdresa == -1)
+            {
+                posetilac.IDAdrese = -1;
+                return;
+            }
+            if (_adreseDAO.GetById(novaAdresa) == null)
+            {
+                System.Console.WriteLine("Adresa ne postoji!");
+                System.Console.WriteLine();
+                return;
+            }
+            posetilac.IDAdrese = novaAdresa;
+        }
+
         // brisanje posetilaca
         protected override void ObjRemoved(Posetilac posetilac)
         {
@@ -170,5 +205,143 @@ namespace ConsoleClient.Views
                 _kupovineDAO.Remove(kupovina.Id);
             }
         }
+        // Extra menu
+        protected override string ExtraMenu => "Upravljanje listom zelja";
+        protected override void ShowExtraMenu()
+        {
+            int IDposetioca = ConsoleViewUtils.SafeInputInt("ID posetioca: ");
+
+            Posetilac posetilac = _posetiociDAO.GetById(IDposetioca);
+
+            if (posetilac == null)
+            {
+                System.Console.WriteLine("Posetilac ne postoji!");
+                System.Console.WriteLine();
+                return;
+            }
+
+            EditWishList(posetilac);
+        }
+        private void EditWishList(Posetilac posetilac)
+        {
+            int choice;
+            do
+            {
+                System.Console.WriteLine($">---- Lista zelja: {posetilac.Ime} {posetilac.Prezime} ----<");
+                System.Console.WriteLine("1 - Dodaj knjigu");
+                System.Console.WriteLine("2 - Ukloni knjigu");
+                System.Console.WriteLine("3 - Prikazi listu zelja");
+                System.Console.WriteLine("0 - Nazad");
+                choice = ConsoleViewUtils.SafeInputInt();
+
+                switch (choice)
+                {
+                    case 1:
+                        AddBookToWishList(posetilac);
+                        break;
+
+                    case 2:
+                        RemoveBookFromWishList(posetilac);
+                        break;
+
+                    case 3:
+                        PrintWishList(posetilac);
+                        break;
+
+                    case 0:
+                        break;
+                    default:
+                        System.Console.WriteLine("Greska!!! Uneseni broj nije u opsegu.");
+                        System.Console.WriteLine();
+                        break;
+                }
+            } while (choice != 0);
+        }
+
+        // dodavanje knjige na listu zelja
+        private void AddBookToWishList(Posetilac posetilac)
+        {
+            List<Knjiga> knjige =_knjigeDAO.GetAll().Where(k => !posetilac.Lista_zelja.Contains(k.Id)).ToList();
+
+            if (knjige.Count == 0)
+            {
+                System.Console.WriteLine("Nema dostupnih knjiga.");
+                System.Console.WriteLine();
+                return;
+            }
+            foreach (Knjiga knjiga in knjige)
+            {
+                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv}");
+            }
+            int IDknjige =ConsoleViewUtils.SafeInputInt("ID knjige: ");
+            Knjiga knjigaZaDodavanje =_knjigeDAO.GetById(IDknjige);
+            if (knjigaZaDodavanje == null)
+            {
+                System.Console.WriteLine("Knjiga ne postoji!");
+                System.Console.WriteLine();
+                return;
+            }
+            if (posetilac.Lista_zelja.Contains(IDknjige))
+            {
+                System.Console.WriteLine("Knjiga je vec na listi zelja!");
+                System.Console.WriteLine();
+                return;
+            }
+            posetilac.Lista_zelja.Add(IDknjige);
+            _posetiociDAO.Update(posetilac);
+            knjigaZaDodavanje.IDZelja.Add(posetilac.Id);
+            _knjigeDAO.Update(knjigaZaDodavanje);
+            System.Console.WriteLine("Knjiga dodata na listu zelja.");
+            System.Console.WriteLine();
+        }
+
+        // brisanje knjige sa liste zelja
+        private void RemoveBookFromWishList(Posetilac posetilac)
+        {
+            if (posetilac.Lista_zelja.Count == 0)
+            {
+                System.Console.WriteLine("Lista zelja je prazna.");
+                System.Console.WriteLine();
+                return;
+            }
+            PrintWishList(posetilac);
+            int IDknjige =ConsoleViewUtils.SafeInputInt("ID knjige za uklanjanje: ");
+            if (!posetilac.Lista_zelja.Contains(IDknjige))
+            {
+                System.Console.WriteLine("Knjiga nije na listi zelja.");
+                System.Console.WriteLine();
+                return;
+            }
+            posetilac.Lista_zelja.Remove(IDknjige);
+            _posetiociDAO.Update(posetilac);
+            Knjiga knjiga =_knjigeDAO.GetById(IDknjige);
+
+            if (knjiga != null)
+            {
+                knjiga.IDZelja.Remove(posetilac.Id);
+                _knjigeDAO.Update(knjiga);
+            }
+            System.Console.WriteLine("Knjiga uklonjena sa liste zelja.");
+            System.Console.WriteLine();
+        }
+
+        // prikaz liste zelja
+        private void PrintWishList(Posetilac posetilac)
+        {
+            List<Knjiga> knjige =posetilac.Lista_zelja.Select(id => _knjigeDAO.GetById(id)).Where(k => k != null).Cast<Knjiga>().ToList();
+
+            if (knjige.Count == 0)
+            {
+                System.Console.WriteLine("Lista zelja je prazna.");
+                System.Console.WriteLine();
+                return;
+            }
+            foreach (Knjiga knjiga in knjige)
+            {
+                System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
+            }
+            System.Console.WriteLine();
+        }
+
     }
 }
