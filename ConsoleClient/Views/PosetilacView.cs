@@ -180,7 +180,8 @@ namespace ConsoleClient.Views
 
             if (posetilac == null)
             {
-                System.Console.WriteLine("Posetilac ne postoji!\n");
+                System.Console.WriteLine("Posetilac ne postoji!");
+                System.Console.WriteLine();
                 return;
             }
 
@@ -217,13 +218,16 @@ namespace ConsoleClient.Views
                 }
             } while (choice != 0);
         }
+
+        // dodavanje knjige na listu zelja
         private void AddBookToWishList(Posetilac posetilac)
         {
             List<Knjiga> knjige =_knjigeDAO.GetAll().Where(k => !posetilac.Lista_zelja.Contains(k.Id)).ToList();
 
             if (knjige.Count == 0)
             {
-                System.Console.WriteLine("Nema dostupnih knjiga.\n");
+                System.Console.WriteLine("Nema dostupnih knjiga.");
+                System.Console.WriteLine();
                 return;
             }
             foreach (Knjiga knjiga in knjige)
@@ -234,27 +238,39 @@ namespace ConsoleClient.Views
             Knjiga knjigaZaDodavanje =_knjigeDAO.GetById(IDknjige);
             if (knjigaZaDodavanje == null)
             {
-                System.Console.WriteLine("Knjiga ne postoji!\n");
+                System.Console.WriteLine("Knjiga ne postoji!");
+                System.Console.WriteLine();
+                return;
+            }
+            if (posetilac.Lista_zelja.Contains(IDknjige))
+            {
+                System.Console.WriteLine("Knjiga je vec na listi zelja!");
+                System.Console.WriteLine();
                 return;
             }
             posetilac.Lista_zelja.Add(IDknjige);
             _posetiociDAO.Update(posetilac);
             knjigaZaDodavanje.IDZelja.Add(posetilac.Id);
             _knjigeDAO.Update(knjigaZaDodavanje);
-            System.Console.WriteLine("Knjiga dodata na listu zelja.\n");
+            System.Console.WriteLine("Knjiga dodata na listu zelja.");
+            System.Console.WriteLine();
         }
+
+        // brisanje knjige sa liste zelja
         private void RemoveBookFromWishList(Posetilac posetilac)
         {
             if (posetilac.Lista_zelja.Count == 0)
             {
-                System.Console.WriteLine("Lista zelja je prazna.\n");
+                System.Console.WriteLine("Lista zelja je prazna.");
+                System.Console.WriteLine();
                 return;
             }
             PrintWishList(posetilac);
             int IDknjige =ConsoleViewUtils.SafeInputInt("ID knjige za uklanjanje: ");
             if (!posetilac.Lista_zelja.Contains(IDknjige))
             {
-                System.Console.WriteLine("Knjiga nije na listi zelja.\n");
+                System.Console.WriteLine("Knjiga nije na listi zelja.");
+                System.Console.WriteLine();
                 return;
             }
             posetilac.Lista_zelja.Remove(IDknjige);
@@ -266,15 +282,19 @@ namespace ConsoleClient.Views
                 knjiga.IDZelja.Remove(posetilac.Id);
                 _knjigeDAO.Update(knjiga);
             }
-            System.Console.WriteLine("Knjiga uklonjena sa liste zelja.\n");
+            System.Console.WriteLine("Knjiga uklonjena sa liste zelja.");
+            System.Console.WriteLine();
         }
+
+        // prikaz liste zelja
         private void PrintWishList(Posetilac posetilac)
         {
             List<Knjiga> knjige =posetilac.Lista_zelja.Select(id => _knjigeDAO.GetById(id)).Where(k => k != null).Cast<Knjiga>().ToList();
 
             if (knjige.Count == 0)
             {
-                System.Console.WriteLine("Lista zelja je prazna.\n");
+                System.Console.WriteLine("Lista zelja je prazna.");
+                System.Console.WriteLine();
                 return;
             }
             foreach (Knjiga knjiga in knjige)
