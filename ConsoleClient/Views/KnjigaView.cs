@@ -10,7 +10,7 @@ namespace ConsoleClient.Views
         private readonly AutorDAO _autoriDAO= new();
         private readonly KnjigaDAO _knjigeDAO = new();
         private readonly IzdavacDAO _izdavaciDAO = new();
-        private readonly PosetilacDAO _posetociDAO = new();   
+        private readonly PosetilacDAO _posetiociDAO = new();   
         private readonly KupovinaDAO _kupovineDAO = new();
 
         public KnjigaView(KnjigaDAO knjigeDAO, AutorDAO autoriDAO) : base(knjigeDAO, "Knjige")
@@ -53,10 +53,10 @@ namespace ConsoleClient.Views
                 }
             }
 
-            foreach(Posetilac posetilac in _posetociDAO.GetAll().Where(posetilac => posetilac.Lista_zelja.Contains(knjiga.Id)))
+            foreach(Posetilac posetilac in _posetiociDAO.GetAll().Where(posetilac => posetilac.Lista_zelja.Contains(knjiga.Id)))
             {
                 posetilac.Lista_zelja.Remove(knjiga.Id);
-                _posetociDAO.Update(posetilac);
+                _posetiociDAO.Update(posetilac);
             }
 
             foreach(Kupovina kupovina in _kupovineDAO.GetAll().Where(kupovina => kupovina.IDknjige == knjiga.Id))
@@ -64,14 +64,14 @@ namespace ConsoleClient.Views
                 _kupovineDAO.Remove(kupovina.Id);
 
                 // osvezi rating jer se obrisala kupovina
-                Posetilac posetilac = _posetociDAO.GetById(kupovina.IDposetioca);
+                Posetilac posetilac = _posetiociDAO.GetById(kupovina.IDposetioca);
                 if(posetilac is not null)
                 {
                     posetilac.Kupljene_knjige.Remove(kupovina.Id);
 
                     List<int> prosecna_ocena = posetilac.Kupljene_knjige.Select(id => _kupovineDAO.GetById(id)).Where(kupovina => kupovina is not null).Select(kupovina => kupovina.Ocena).ToList();
                     posetilac.Ocena_recenzija = prosecna_ocena.Count == 0 ? 0 : prosecna_ocena.Average();
-                    _posetociDAO.Update(posetilac);
+                    _posetiociDAO.Update(posetilac);
                 }
             }
 
@@ -347,6 +347,55 @@ namespace ConsoleClient.Views
             }
 
             _izdavaciDAO.Update(izdavac);
+        }
+
+        protected override string ExtraMenu => "Prikazi podatke o autorima, kupcima i listi zelja";
+
+        protected override void ShowExtraMenu()
+        {
+            int IDknjige = ConsoleViewUtils.SafeInputInt("Unesite ID knjige za koju zelite videti dodatne podatke: ");
+            Console.WriteLine();
+
+            if(_knjigeDAO.GetById(IDknjige) is null)
+            {
+                System.Console.WriteLine("Knjiga sa unesenim ID-jem ne postoji! ;c\n");
+                return;
+            }
+
+            Knjiga knjiga = _knjigeDAO.GetById(IDknjige);
+
+            if(knjiga.IDAutora.Count() != 0)
+            {
+                System.Console.WriteLine("Autori:");
+            }
+            PrintAuthors(knjiga.IDAutora);
+            if(knjiga.IDKupaca.Count() != 0)
+            {
+                System.Console.WriteLine("Kupci:");
+            }
+            PrintVisitors(knjiga.IDKupaca);
+            if(knjiga.IDZelja.Count() != 0)
+            {
+                System.Console.WriteLine("Posetioci kojima je na listi zelja:");
+            }
+            PrintVisitors(knjiga.IDZelja);
+    
+          
+        }
+
+        private void PrintVisitors(IEnumerable<int> IDposetioca)
+        {
+            List<Posetilac> posetioci = IDposetioca.Select(id => _posetiociDAO.GetById(id)).Where(posetilac => posetilac is not null).Cast<Posetilac>().ToList();
+            if (posetioci.Count == 0)
+            {
+                System.Console.WriteLine("Nema povezanih posetilaca! :c\n");
+                return;
+            }
+
+            foreach (Posetilac posetilac in posetioci)
+                System.Console.WriteLine($"[{posetilac.Id}] {posetilac.Ime} {posetilac.Prezime}");
+
+            System.Console.WriteLine();
         }
 
     }
