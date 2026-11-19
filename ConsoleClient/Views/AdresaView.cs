@@ -7,11 +7,13 @@ namespace ConsoleClient.Views
     internal class AdresaView : GenericView<Adresa>
     {
         private readonly AutorDAO _autoriDAO;
-        //private readonly PosetilacDAO _posetiociDAO; (dodati svuda)
+      
+        private readonly PosetilacDAO _posetiociDAO; 
 
-        public AdresaView(AdresaDAO adreseDAO, AutorDAO autoriDAO) : base(adreseDAO, "Adrese")
+        public AdresaView(AdresaDAO adreseDAO, AutorDAO autoriDAO, PosetilacDAO posetiociDAO) : base(adreseDAO, "Adrese")
         {
             _autoriDAO = autoriDAO;
+            _posetiociDAO = posetiociDAO;
         }
 
         protected override Adresa InputObj()
@@ -32,18 +34,18 @@ namespace ConsoleClient.Views
                 autor.IDAdrese = -1;
                 _autoriDAO.Update(autor);
             }
-            /*
+            
              foreach(Posetilac posetilac in _posetiociDAO.GetAll().Where(posetilac => posetilac.IDAdrese == adresa.Id))
             {
                 posetilac.IDAdrese = -1;
-                _posetioci.Update(posetilac);
+                _posetiociDAO.Update(posetilac);
             }
-             */
+             
         }
 
         protected override void PrintObj(Adresa adresa)
         {
-            System.Console.WriteLine($"[{adresa.Id}] {adresa.Ulica} {adresa.Broj} {adresa.Grad} {adresa.Drzava}");
+            System.Console.WriteLine($"[{adresa.Id}] {adresa.Ulica} {adresa.Broj}, {adresa.Grad}, {adresa.Drzava}");
         }
 
         protected override void ReadUpdatedObj(Adresa adresa)

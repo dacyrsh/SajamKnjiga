@@ -59,6 +59,7 @@ namespace ConsoleClient.Views
             System.Console.WriteLine($"--> Godina clanstva: {posetilac.Godina_clanstva}");
             System.Console.WriteLine($"--> Prosecna ocena: {posetilac.Ocena_recenzija}");
             System.Console.WriteLine($"--> Adresa: {adresa}");
+            System.Console.WriteLine();
         }
         // izmena posetilaca
         protected override void ReadUpdatedObj(Posetilac posetilac)

@@ -25,6 +25,7 @@ namespace ConsoleClient.Views
                 Sifra = ConsoleViewUtils.SafeInputStr("Sifra: "),
                 Naziv = ConsoleViewUtils.SafeInputStr("Naziv: "),
                 IDsefa = ConsoleViewUtils.SafeInputInt("ID sefa: ")
+        
             };
         }
         // ispis izdavaca
@@ -32,6 +33,8 @@ namespace ConsoleClient.Views
         {
             System.Console.WriteLine($"[{izdavac.Id}] {izdavac.Naziv} ({izdavac.Sifra})");
             System.Console.WriteLine($"---> ID sefa: {izdavac.IDsefa}");
+            Console.WriteLine();
+
         }
         // izmene izdavaca
         protected override void ReadUpdatedObj(Izdavac izdavac)
@@ -45,7 +48,7 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("3 - ID sefa");
                 System.Console.WriteLine("0 - Zavrsi izmenu");
                 System.Console.WriteLine(">-------------------------------------------------<");
-                System.Console.WriteLine("Unesite broj vaseg izbora: ");
+                System.Console.Write("Unesite broj vaseg izbora: ");
                 choice = ConsoleViewUtils.SafeInputInt();
                 System.Console.WriteLine();
 

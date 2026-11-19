@@ -45,7 +45,7 @@ namespace ConsoleClient.Views
                 if (ExtraMenu is not null)
                     System.Console.WriteLine($"5 - {ExtraMenu}");
                 System.Console.WriteLine("0 - Nazad");
-                System.Console.WriteLine(">---------------------<");
+                System.Console.WriteLine(">-------------------<");
 
                 System.Console.Write("Unesite broj vašeg izbora: ");
                 choice = ConsoleViewUtils.SafeInputInt();
@@ -118,14 +118,15 @@ namespace ConsoleClient.Views
 
         private void Update()
         {
-            Console.Write("Unesite id: ");
+            Console.Write("Unesite ID koji zelite menjati: ");
             int id = ConsoleViewUtils.SafeInputInt();
+            Console.WriteLine();
 
             T obj = _dao.GetById(id);
 
             if(obj == null)
             {
-                System.Console.WriteLine("ID " + id + " ne postoji u sistemu!");
+                System.Console.WriteLine("ID " + id + " ne postoji u sistemu!\n");
                 return;
             }
 

@@ -64,7 +64,7 @@ namespace ConsoleClient.Views
             System.Console.WriteLine($"---> Telefon: {autor.Telefon}");
             System.Console.WriteLine($"---> E-mail: {autor.Email}");
             System.Console.WriteLine($"---> Adresa: {adresa}");
-            
+            System.Console.WriteLine();
 
         }
 
@@ -166,7 +166,9 @@ namespace ConsoleClient.Views
             foreach (Adresa adresa in adrese)
                 System.Console.WriteLine($"[{adresa.Id}] - {adresa.ToString()}");
 
+            Console.WriteLine();
             int novaAdresa = ConsoleViewUtils.SafeInputInt("ID Adrese [-1 - ukloni adresu]: ");
+            Console.WriteLine();
 
             if (novaAdresa == -1)
             {
@@ -176,7 +178,7 @@ namespace ConsoleClient.Views
 
             if (_adreseDAO.GetById(novaAdresa) == null)
             {
-                System.Console.WriteLine("Izabrali ste nepostojeću adresu...");
+                System.Console.WriteLine("Izabrali ste nepostojeću adresu...\n");
                 return;
             }
 

@@ -15,7 +15,7 @@ namespace Core.Models
         private string ime;
         private string prezime;
         private DateOnly datumRodjenja;
-        private int IdAdrese;
+        private int IdAdrese = -1;
         private string telefon;
         private string email;
         private string clanska_karta;
