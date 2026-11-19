@@ -184,7 +184,51 @@ namespace ConsoleClient.Views
                 return;
             }
 
-            //EditWishList(posetilac);
+            EditWishList(posetilac);
         }
+        private void EditWishList(Posetilac posetilac)
+        {
+            int choice;
+            do
+            {
+                System.Console.WriteLine($">---- Lista zelja: {posetilac.Ime} {posetilac.Prezime} ----<");
+                System.Console.WriteLine("1 - Dodaj knjigu");
+                System.Console.WriteLine("2 - Ukloni knjigu");
+                System.Console.WriteLine("3 - Prikazi listu zelja");
+                System.Console.WriteLine("0 - Nazad");
+                choice = ConsoleViewUtils.SafeInputInt();
+
+                switch (choice)
+                {
+                    case 1:
+                        AddBookToWishList(posetilac);
+                        break;
+
+                    case 2:
+                        RemoveBookFromWishList(posetilac);
+                        break;
+
+                    case 3:
+                        PrintWishList(posetilac);
+                        break;
+
+                    case 0:
+                        break;
+                }
+            } while (choice != 0);
+        }
+        private void AddBookToWishList(Posetilac posetilac)
+        {
+
+        }
+        private void RemoveBookFromWishList(Posetilac posetilac)
+        { 
+
+        }
+        private void PrintWishList(Posetilac posetilac)
+        {
+
+        }
+
     }
 }
