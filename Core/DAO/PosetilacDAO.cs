@@ -7,7 +7,7 @@ namespace Core.DAO
 {
     public class PosetilacDAO : GenericDAO<Posetilac>
     {
-        public PosetilacDAO() : base("posetioci.txt")
+        public PosetilacDAO() : base("posetioci.csv")
         {
 
         }

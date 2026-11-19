@@ -7,7 +7,7 @@ namespace Core.DAO
 {
     public class KupovinaDAO : GenericDAO<Kupovina>
     {
-        public KupovinaDAO(): base("kupovina.txt")
+        public KupovinaDAO(): base("kupovina.csv")
         {
 
         }

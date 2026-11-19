@@ -7,7 +7,7 @@ namespace Core.DAO
 {
     public class IzdavacDAO : GenericDAO<Izdavac>
     {
-        public IzdavacDAO():base("izdavac.txt")
+        public IzdavacDAO():base("izdavac.csv")
         {
         }
     }

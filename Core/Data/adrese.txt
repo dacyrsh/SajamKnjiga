@@ -1,3 +1,0 @@
-3|Bulevar Kralja Petra I|32|Novi Sad|Srbija
-4|Jovana Cvijica|45|Bor|Srbija
-5|Mjau Mjau|13|Mjau City|Mjauland

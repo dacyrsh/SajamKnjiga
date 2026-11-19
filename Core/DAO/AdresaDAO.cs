@@ -7,7 +7,7 @@ namespace Core.DAO
 {
     public class AdresaDAO : GenericDAO<Adresa>
     {
-        public AdresaDAO():base("adrese.txt")
+        public AdresaDAO():base("adrese.csv")
         {
 
         }
