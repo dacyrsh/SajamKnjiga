@@ -170,5 +170,21 @@ namespace ConsoleClient.Views
                 _kupovineDAO.Remove(kupovina.Id);
             }
         }
+        // Extra menu
+        protected override string ExtraMenu => "Upravljanje listom zelja";
+        protected override void ShowExtraMenu()
+        {
+            int IDposetioca = ConsoleViewUtils.SafeInputInt("ID posetioca: ");
+
+            Posetilac posetilac = _posetiociDAO.GetById(IDposetioca);
+
+            if (posetilac == null)
+            {
+                System.Console.WriteLine("Posetilac ne postoji!\n");
+                return;
+            }
+
+            //EditWishList(posetilac);
+        }
     }
 }
