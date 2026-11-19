@@ -9,15 +9,15 @@ namespace ConsoleClient.Views
     {
         private readonly AutorDAO _autoriDAO = new();
         private readonly KnjigaDAO _knjigeDAO = new();
-
         private readonly AdresaDAO _adreseDAO = new();
-        //private readonly IzdavacDAO _izdavaciDAO = new();
+        private readonly IzdavacDAO _izdavaciDAO = new();
 
-        public AutorView(AutorDAO autoriDAO, KnjigaDAO knjigeDAO, AdresaDAO adreseDAO) : base(autoriDAO, "Autori")
+        public AutorView(AutorDAO autoriDAO, KnjigaDAO knjigeDAO, AdresaDAO adreseDAO, IzdavacDAO izdavaciDAO) : base(autoriDAO, "Autori")
         {
             _autoriDAO = autoriDAO;
             _knjigeDAO = knjigeDAO;
             _adreseDAO = adreseDAO;
+            _izdavaciDAO = izdavaciDAO;
         }
 
         // Unos novog
@@ -43,14 +43,13 @@ namespace ConsoleClient.Views
                 knjiga.IDAutora.Remove(autor.Id);
                 _knjigeDAO.Update(knjiga);
             }
-
-            /*
-            foreach(Izdavac izdavaci in _izdavaciDAO.GetAll().Where(izdavac => izdavac.IDAutora.Contains(autor.Id)))
+            
+            foreach(Izdavac izdavac in _izdavaciDAO.GetAll().Where(izdavac => izdavac.Autori.Contains(autor.Id)))
             {
-                izdavac.IDAutora.Remove(autor.Id);
+                izdavac.Autori.Remove(autor.Id);
                 _izdavaciDAO.Update(izdavac);
             }
-            */
+            
 
         }
 
@@ -65,6 +64,7 @@ namespace ConsoleClient.Views
             System.Console.WriteLine($"---> Telefon: {autor.Telefon}");
             System.Console.WriteLine($"---> E-mail: {autor.Email}");
             System.Console.WriteLine($"---> Adresa: {adresa}");
+            
 
         }
 
