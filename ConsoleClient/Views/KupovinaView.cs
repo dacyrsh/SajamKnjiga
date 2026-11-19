@@ -101,7 +101,7 @@ namespace ConsoleClient.Views
 
         protected override void ObjRemoved(Kupovina kupovina)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
