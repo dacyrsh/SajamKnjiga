@@ -79,7 +79,7 @@ namespace Core.Models
                 Id.ToString(),
                 Ime,
                 Prezime, 
-                DatumRodjenja.ToString(),
+                DatumRodjenja.ToString("yyyy-MM-dd"),
                 IDAdrese.ToString(),
                 Telefon,
                 Email,
