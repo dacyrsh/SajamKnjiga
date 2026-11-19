@@ -13,10 +13,16 @@ namespace ConsoleClient.Views
         private readonly PosetilacDAO _posetiociDAO = new();
         private readonly AdresaDAO _adreseDAO = new();
 
-        public PosetilacView(PosetilacDAO posetiociDAO, AdresaDAO adreseDAO) : base(posetiociDAO, "Posetioci")
+        private readonly KupovinaDAO _kupovineDAO = new();
+        private readonly KnjigaDAO _knjigeDAO = new();
+
+
+        public PosetilacView(PosetilacDAO posetiociDAO, AdresaDAO adreseDAO, KupovinaDAO kupovineDAO, KnjigaDAO knjigeDAO) : base(posetiociDAO, "Posetioci")
         {
             _posetiociDAO = posetiociDAO;
             _adreseDAO = adreseDAO;
+            _kupovineDAO = kupovineDAO;
+            _knjigeDAO = knjigeDAO;
         }
         // unos
         protected override Posetilac InputObj()
@@ -143,7 +149,25 @@ namespace ConsoleClient.Views
         // brisanje posetilaca
         protected override void ObjRemoved(Posetilac posetilac)
         {
-            throw new NotImplementedException();
+            foreach (Knjiga knjiga in _knjigeDAO.GetAll()
+        .Where(knjiga => knjiga.IDKupaca.Contains(posetilac.Id)))
+            {
+                knjiga.IDKupaca.Remove(posetilac.Id);
+                _knjigeDAO.Update(knjiga);
+            }
+
+            foreach (Knjiga knjiga in _knjigeDAO.GetAll()
+                .Where(knjiga => knjiga.IDZelja.Contains(posetilac.Id)))
+            {
+                knjiga.IDZelja.Remove(posetilac.Id);
+                _knjigeDAO.Update(knjiga);
+            }
+
+            foreach (Kupovina kupovina in _kupovineDAO.GetAll()
+                .Where(kupovina => kupovina.IDposetioca == posetilac.Id))
+            {
+                _kupovineDAO.Remove(kupovina.Id);
+            }
         }
     }
 }
