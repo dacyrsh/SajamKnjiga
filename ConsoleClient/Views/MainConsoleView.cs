@@ -12,15 +12,27 @@ namespace ConsoleClient.Views
         private readonly AutorDAO _autoriDAO = new();
         private readonly KnjigaDAO _knjigeDAO = new();
 
+        private readonly IzdavacDAO _izdavaciDAO = new();
+        private readonly PosetilacDAO _posetiociDAO = new();
+        private readonly KupovinaDAO _kupovineDAO = new();
+
         private readonly AdresaView _adreseView;
         private readonly AutorView _autoriView;
         private readonly KnjigaView _knjigeView;
+
+        private readonly IzdavacView _izdavaciView;
+        private readonly PosetilacView _posetiociView;
+        private readonly KupovinaView _kupovineView;
 
         public MainConsoleView()
         {
             _adreseView = new AdresaView(_adreseDAO, _autoriDAO);
             _autoriView = new AutorView(_autoriDAO, _knjigeDAO, _adreseDAO);
             _knjigeView = new KnjigaView(_knjigeDAO, _autoriDAO);
+
+            _izdavaciView = new IzdavacView(_izdavaciDAO, _knjigeDAO);
+            _posetiociView = new PosetilacView(_posetiociDAO, _adreseDAO, _kupovineDAO, _knjigeDAO);
+            _kupovineView = new KupovinaView(_kupovineDAO, _posetiociDAO, _knjigeDAO);
         }
 
         public void Run()
@@ -47,7 +59,7 @@ namespace ConsoleClient.Views
                 {
 
                     case 1:
-                        
+                        _posetiociView.Run();
                         break;
                     case 2:
                         _autoriView.Run();
@@ -56,10 +68,10 @@ namespace ConsoleClient.Views
                         _knjigeView.Run();
                         break;
                     case 4:
-
+                        _kupovineView.Run();
                         break;
                     case 5:
-
+                        _izdavaciView.Run();
                         break;
                     case 6:
                         _adreseView.Run();
