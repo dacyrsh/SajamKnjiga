@@ -48,15 +48,7 @@ namespace ConsoleClient.Views
                 {
                     izdavac.Knjige.Remove(knjiga.Id);
 
-                    izdavac.Autori = izdavac.Knjige.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga is not null).SelectMany(knjiga => knjiga.IDAutora).Distinct().ToList();
-
-                    // moramo proveriti jel bio sef
-                    if(izdavac.IDsefa != -1 && !izdavac.Autori.Contains(izdavac.IDsefa))
-                    {
-                        izdavac.IDsefa = -1;
-                    }
-
-                    _izdavaciDAO.Update(izdavac);
+                    RefreshPublisherAuthors(izdavac);
 
                 }
             }
@@ -165,13 +157,14 @@ namespace ConsoleClient.Views
                         break;
 
                     case 8:
+                        EditPublisher(knjiga);
                         break;
 
                     case 0:
                         break;
 
                     default:
-                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.");
+                        System.Console.WriteLine("Greška!!! Unešeni broj nije u opsegu.\n");
                         break;
                 }
             } while (choice != 0);
@@ -214,6 +207,7 @@ namespace ConsoleClient.Views
 
             } while (choice != 0);
         }
+
 
         private void AddAuthor(Knjiga knjiga)
         {
@@ -293,6 +287,67 @@ namespace ConsoleClient.Views
             System.Console.WriteLine();
         }
 
-        
+        private void EditPublisher(Knjiga knjiga)
+        {
+            List<Izdavac> izdavaci = _izdavaciDAO.GetAll();
+
+            if(izdavaci.Count == 0)
+            {
+                System.Console.WriteLine("Trenutno nema izdavaca u sistemu!\n");
+                return;
+            }
+
+            System.Console.WriteLine("Dostupni izdavaci: ");
+            foreach (Izdavac izdavac in izdavaci)
+                System.Console.WriteLine($"[{izdavac.Id}] {izdavac.Naziv}");
+
+            System.Console.WriteLine();
+
+            int stariIzdavacID = knjiga.IDIzdavaca;
+            int noviIzdavacID = ConsoleViewUtils.SafeInputInt($"ID novog izdavaca: ");
+
+            if(_izdavaciDAO.GetById(noviIzdavacID) == null)
+            {
+                System.Console.WriteLine("Izdavac sa datim ID-jem ne postoji!\n");
+                return;
+            }
+
+            if (stariIzdavacID == noviIzdavacID)
+                return;
+
+            if(stariIzdavacID != -1)
+            {
+                Izdavac stariIzdavac = _izdavaciDAO.GetById(stariIzdavacID);
+                if(stariIzdavac != null)
+                {
+                    stariIzdavac.Knjige.Remove(knjiga.Id);
+                    RefreshPublisherAuthors(stariIzdavac);
+                }
+            }
+
+            knjiga.IDIzdavaca = noviIzdavacID;
+            if(noviIzdavacID != -1)
+            {
+                Izdavac noviIzdavac = _izdavaciDAO.GetById(noviIzdavacID);
+                if(!noviIzdavac.Knjige.Contains(knjiga.Id))
+                    noviIzdavac.Knjige.Add(knjiga.Id);
+                RefreshPublisherAuthors(noviIzdavac);
+            }
+
+        }
+
+        private void RefreshPublisherAuthors(Izdavac izdavac)
+        {
+            izdavac.Autori = izdavac.Knjige.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga is not null).SelectMany(knjiga => knjiga.IDAutora).Distinct().ToList();
+
+            // moramo proveriti jel bio sef
+            if (izdavac.IDsefa != -1 && !izdavac.Autori.Contains(izdavac.IDsefa))
+            {
+                izdavac.IDsefa = -1;
+            }
+
+            _izdavaciDAO.Update(izdavac);
+        }
+
     }
 }
