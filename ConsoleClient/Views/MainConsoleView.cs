@@ -27,7 +27,7 @@ namespace ConsoleClient.Views
         public MainConsoleView()
         {
             _adreseView = new AdresaView(_adreseDAO, _autoriDAO);
-            _autoriView = new AutorView(_autoriDAO, _knjigeDAO, _adreseDAO);
+            _autoriView = new AutorView(_autoriDAO, _knjigeDAO, _adreseDAO, _izdavaciDAO);
             _knjigeView = new KnjigaView(_knjigeDAO, _autoriDAO);
 
             _izdavaciView = new IzdavacView(_izdavaciDAO, _knjigeDAO);
