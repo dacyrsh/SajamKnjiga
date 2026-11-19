@@ -89,6 +89,8 @@ namespace ConsoleClient.Views
         {
             List<string> autori = knjiga.IDAutora.Select(id => _autoriDAO.GetById(id)).Where(autor => autor is not null).Select(autor => $"{autor.Ime} {autor.Prezime}").ToList();
             string autori_str = autori.Count == 0 ? "Nisu dodeljeni" : string.Join(", ", autori);
+            Izdavac izdavac = _izdavaciDAO.GetById(knjiga.IDIzdavaca);
+            string izdavac_str = izdavac == null ? "Nije dodeljen" : izdavac.Naziv;
 
             System.Console.WriteLine($"[{knjiga.Id}] {knjiga.Naziv} ({knjiga.ISBN1})");
             System.Console.WriteLine($"--->Žanr: {knjiga.Zanr}");
@@ -96,6 +98,8 @@ namespace ConsoleClient.Views
             System.Console.WriteLine($"--->Broj strana: {knjiga.Br_strana}");
             System.Console.WriteLine($"--->Cena: {Math.Round(knjiga.Cena,2)}");
             System.Console.WriteLine($"--->Autor/i: {autori_str}");
+            System.Console.WriteLine($"--->Izdavac: {izdavac_str}");
+            System.Console.WriteLine();
         }
 
         protected override void ReadUpdatedObj(Knjiga knjiga)
