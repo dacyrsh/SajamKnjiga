@@ -250,6 +250,10 @@ namespace ConsoleClient.Views
 
                     case 0:
                         break;
+                    default:
+                        System.Console.WriteLine("Greska!!! Uneseni broj nije u opsegu.");
+                        System.Console.WriteLine();
+                        break;
                 }
             } while (choice != 0);
         }
