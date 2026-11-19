@@ -33,10 +33,14 @@ namespace ConsoleClient.Views
                 Komentar = ConsoleViewUtils.SafeInputStr("Komentar: ")
             };
         }
-
+        // ispis kupovine
         protected override void PrintObj(Kupovina kupovina)
         {
-            throw new NotImplementedException();
+            System.Console.WriteLine($"[{kupovina.Id}] Posetilac ID: {kupovina.IDposetioca} | Knjiga ID: {kupovina.IDknjige}");
+            System.Console.WriteLine($"--> Datum kupovine: {kupovina.Datum_kupovine}");
+            System.Console.WriteLine($"--> Ocena: {kupovina.Ocena}");
+            System.Console.WriteLine($"--> Komentar: {kupovina.Komentar}");
+            System.Console.WriteLine();
         }
 
         protected override void ReadUpdatedObj(Kupovina kupovina)
