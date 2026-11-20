@@ -20,6 +20,7 @@ namespace ConsoleClient.Views
             _posetiociDAO = posetiociDAO;
             _knjigeDAO = knjigeDAO;
         }
+
         // unos kupovine
         protected override Kupovina InputObj()
         {
@@ -128,9 +129,23 @@ namespace ConsoleClient.Views
             } while (choice != 0);
         }
 
+        // brisanje kupovine
         protected override void ObjRemoved(Kupovina kupovina)
         {
-            
+            Posetilac posetilac =_posetiociDAO.GetById(kupovina.IDposetioca);
+            Knjiga knjiga =_knjigeDAO.GetById(kupovina.IDknjige);
+
+            if (posetilac != null)
+            {
+                posetilac.Kupljene_knjige.Remove(kupovina.IDknjige);
+                _posetiociDAO.Update(posetilac);
+            }
+
+            if (knjiga != null)
+            {
+                knjiga.IDKupaca.Remove(kupovina.IDposetioca);
+                _knjigeDAO.Update(knjiga);
+            }
         }
     }
 }
