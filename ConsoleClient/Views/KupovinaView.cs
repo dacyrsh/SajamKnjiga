@@ -53,12 +53,24 @@ namespace ConsoleClient.Views
                 knjiga.IDKupaca.Add(IDposetioca);
                 _knjigeDAO.Update(knjiga);
             }
+            int ocena;
+            do
+            {
+                ocena =ConsoleViewUtils.SafeInputInt("Ocena [1-5]: ");
+                if (ocena < 1 || ocena > 5)
+                {
+                    Console.WriteLine("Ocena mora biti izmedju 1 i 5!");
+                    Console.WriteLine();
+                }
+
+            } while (ocena < 1 || ocena > 5);
             return new Kupovina
             {
+
                 IDposetioca = IDposetioca,
                 IDknjige = IDknjige,
-                Datum_kupovine =ConsoleViewUtils.SafeInputDateOnly("Datum kupovine [yyyy-MM-dd]: "),
-                Ocena = ConsoleViewUtils.SafeInputInt("Ocena [1-5]: "),
+                Datum_kupovine = ConsoleViewUtils.SafeInputDateOnly("Datum kupovine [yyyy-MM-dd]: "),
+                Ocena = ocena,
                 Komentar = ConsoleViewUtils.SafeInputStr("Komentar: ")
             };
         }
@@ -109,8 +121,18 @@ namespace ConsoleClient.Views
                         break;
 
                     case 4:
-                        System.Console.Write($"Nova ocena (Stara - [{kupovina.Ocena}]): ");
-                        kupovina.Ocena = ConsoleViewUtils.SafeInputInt();
+                        int novaOcena;
+                        do
+                        {
+                            System.Console.Write($"Nova ocena (Stara - [{kupovina.Ocena}]): ");
+                            novaOcena = ConsoleViewUtils.SafeInputInt();
+                            if (novaOcena < 1 || novaOcena > 5)
+                            {
+                                System.Console.WriteLine("Ocena mora biti izmedju 1 i 5!");
+                                System.Console.WriteLine();
+                            }
+                        } while (novaOcena < 1 || novaOcena > 5);
+                        kupovina.Ocena = novaOcena;
                         break;
 
                     case 5:
