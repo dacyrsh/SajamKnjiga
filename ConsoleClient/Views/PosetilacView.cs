@@ -43,14 +43,11 @@ namespace ConsoleClient.Views
         // prikaz posetioca
         protected override void PrintObj(Posetilac posetilac)
         {
-            string adresa =
-                posetilac.IDAdrese == -1
-                ? "Nije dodeljena"
-                : _adreseDAO.GetById(posetilac.IDAdrese)?.ToString()
-                    ?? "Nije pronadjena";
+            string adresa =posetilac.IDAdrese == -1 ? "Nije dodeljena": _adreseDAO.GetById(posetilac.IDAdrese)?.ToString() ?? "Nije pronadjena";
+            System.Console.WriteLine($"[{posetilac.Id}] {posetilac.Ime} {posetilac.Prezime} ({posetilac.Clanska_karta})");
 
-            System.Console.WriteLine(
-                $"[{posetilac.Id}] {posetilac.Ime} {posetilac.Prezime} ({posetilac.Clanska_karta})");
+            List<Knjiga> kupljeneKnjige =posetilac.Kupljene_knjige.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga != null).Cast<Knjiga>().ToList();
+            string kupljeneKnjigeStr =kupljeneKnjige.Count == 0? "Nema kupljenih knjiga": string.Join(", ",kupljeneKnjige.Select(k => k.Naziv));
 
             System.Console.WriteLine($"--> Datum rodjenja: {CsvConversion.FromDate(posetilac.DatumRodjenja)}");
             System.Console.WriteLine($"--> Telefon: {posetilac.Telefon}");
@@ -59,6 +56,7 @@ namespace ConsoleClient.Views
             System.Console.WriteLine($"--> Godina clanstva: {posetilac.Godina_clanstva}");
             System.Console.WriteLine($"--> Prosecna ocena: {posetilac.Ocena_recenzija}");
             System.Console.WriteLine($"--> Adresa: {adresa}");
+            System.Console.WriteLine($"--> Kupljene knjige: {kupljeneKnjigeStr}");
             System.Console.WriteLine();
         }
         // izmena posetilaca
