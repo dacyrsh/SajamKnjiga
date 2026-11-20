@@ -49,6 +49,16 @@ namespace ConsoleClient.Views
             List<Knjiga> kupljeneKnjige =posetilac.Kupljene_knjige.Select(id => _knjigeDAO.GetById(id)).Where(knjiga => knjiga != null).Cast<Knjiga>().ToList();
             string kupljeneKnjigeStr =kupljeneKnjige.Count == 0? "Nema kupljenih knjiga": string.Join(", ",kupljeneKnjige.Select(k => k.Naziv));
 
+            List<Kupovina> kupovine = _kupovineDAO.GetAll().Where(k => k.IDposetioca == posetilac.Id).ToList();
+            if (kupovine.Count > 0)
+            {
+                posetilac.Ocena_recenzija =kupovine.Average(k => k.Ocena);
+            }
+            else
+            {
+                posetilac.Ocena_recenzija = 0;
+            }
+
             System.Console.WriteLine($"--> Datum rodjenja: {CsvConversion.FromDate(posetilac.DatumRodjenja)}");
             System.Console.WriteLine($"--> Telefon: {posetilac.Telefon}");
             System.Console.WriteLine($"--> E-mail: {posetilac.Email}");

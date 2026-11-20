@@ -30,7 +30,7 @@ namespace ConsoleClient.Views
             _autoriView = new AutorView(_autoriDAO, _knjigeDAO, _adreseDAO, _izdavaciDAO);
             _knjigeView = new KnjigaView(_knjigeDAO, _autoriDAO);
 
-            _izdavaciView = new IzdavacView(_izdavaciDAO, _knjigeDAO);
+            _izdavaciView = new IzdavacView(_izdavaciDAO, _knjigeDAO, _autoriDAO);
             _posetiociView = new PosetilacView(_posetiociDAO, _adreseDAO, _kupovineDAO, _knjigeDAO);
             _kupovineView = new KupovinaView(_kupovineDAO, _posetiociDAO, _knjigeDAO);
         }

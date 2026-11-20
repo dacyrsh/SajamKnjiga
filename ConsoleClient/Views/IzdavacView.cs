@@ -12,20 +12,39 @@ namespace ConsoleClient.Views
     {
         private readonly IzdavacDAO _izdavacDAO = new();
         private readonly KnjigaDAO _knjigeDAO = new();
-        public IzdavacView(IzdavacDAO izdavacDAO, KnjigaDAO knjigeDAO) : base(izdavacDAO, "Izdavaci")
+        private readonly AutorDAO _autoriDAO = new();
+        public IzdavacView(IzdavacDAO izdavacDAO, KnjigaDAO knjigeDAO, AutorDAO autoriDAO) : base(izdavacDAO, "Izdavaci")
         {
             _izdavacDAO = izdavacDAO;
             _knjigeDAO = knjigeDAO;
+            _autoriDAO = autoriDAO;
         }
         // unos izdavaca
         protected override Izdavac InputObj()
         {
+            int idSefa;
+            Autor sef;
+            do
+            {
+                idSefa = ConsoleViewUtils.SafeInputInt("ID sefa: ");
+                sef = _autoriDAO.GetById(idSefa);
+                if (sef == null)
+                {
+                    Console.WriteLine("Autor ne postoji!");
+                    Console.WriteLine();
+                }
+                else if (sef.Godine_iskustva < 5)
+                {
+                    Console.WriteLine("Autor mora imati najmanje 5 godina iskustva!");
+                    Console.WriteLine();
+                    sef = null;
+                }
+            } while (sef == null);
             return new Izdavac 
             { 
                 Sifra = ConsoleViewUtils.SafeInputStr("Sifra: "),
                 Naziv = ConsoleViewUtils.SafeInputStr("Naziv: "),
-                IDsefa = ConsoleViewUtils.SafeInputInt("ID sefa: ")
-        
+                IDsefa = idSefa
             };
         }
         // ispis izdavaca
@@ -65,9 +84,26 @@ namespace ConsoleClient.Views
                         System.Console.WriteLine();
                         break;
                     case 3:
-                        System.Console.Write($"Novi ID sefa (stari ID sefa - [{izdavac.IDsefa}]): ");
-                        izdavac.IDsefa = ConsoleViewUtils.SafeInputInt();
-                        System.Console.WriteLine();
+                        Autor autor;
+                        int noviSef;
+                        do
+                        {
+                            Console.Write($"Novi ID sefa (stari ID sefa - [{izdavac.IDsefa}]): ");
+                            noviSef = ConsoleViewUtils.SafeInputInt();
+                            autor = _autoriDAO.GetById(noviSef);
+                            if (autor == null)
+                            {
+                                Console.WriteLine("Autor ne postoji!");
+                                Console.WriteLine();
+                            }
+                            else if (autor.Godine_iskustva < 5)
+                            {
+                                Console.WriteLine("Autor mora imati najmanje 5 godina iskustva!");
+                                Console.WriteLine();
+                                autor = null;
+                            }
+                        } while (autor == null);
+                        izdavac.IDsefa = noviSef;
                         break;
                     case 0:
                         break;
@@ -75,7 +111,6 @@ namespace ConsoleClient.Views
                         System.Console.WriteLine("Greska!!! Uneseni broj nije u opsegu");
                         System.Console.WriteLine();
                         break;
-
                 }
             } while (choice != 0);
         }
