@@ -230,6 +230,8 @@ namespace ConsoleClient.Views
                 System.Console.WriteLine("2 - Ukloni knjigu");
                 System.Console.WriteLine("3 - Prikazi listu zelja");
                 System.Console.WriteLine("0 - Nazad");
+                System.Console.WriteLine(">-------------------------------------------------<");
+                System.Console.Write("Unesite broj vašeg izbora: ");
                 choice = ConsoleViewUtils.SafeInputInt();
 
                 switch (choice)
