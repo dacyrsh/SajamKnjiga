@@ -20,15 +20,44 @@ namespace ConsoleClient.Views
             _posetiociDAO = posetiociDAO;
             _knjigeDAO = knjigeDAO;
         }
+
         // unos kupovine
         protected override Kupovina InputObj()
         {
+            int IDposetioca = ConsoleViewUtils.SafeInputInt("ID posetioca: ");
+
+            int IDknjige = ConsoleViewUtils.SafeInputInt("ID knjige: ");
+
+            Posetilac posetilac = _posetiociDAO.GetById(IDposetioca);
+
+            Knjiga knjiga = _knjigeDAO.GetById(IDknjige);
+
+            if (posetilac == null)
+            {
+                throw new Exception("Posetilac ne postoji!");
+            }
+
+            if (knjiga == null)
+            {
+                throw new Exception("Knjiga ne postoji!");
+            }
+
+            if (!posetilac.Kupljene_knjige.Contains(IDknjige))
+            {
+                posetilac.Kupljene_knjige.Add(IDknjige);
+                _posetiociDAO.Update(posetilac);
+            }
+
+            if (!knjiga.IDKupaca.Contains(IDposetioca))
+            {
+                knjiga.IDKupaca.Add(IDposetioca);
+                _knjigeDAO.Update(knjiga);
+            }
             return new Kupovina
             {
-                IDposetioca = ConsoleViewUtils.SafeInputInt("ID posetioca: "),
-                IDknjige = ConsoleViewUtils.SafeInputInt("ID knjige: "),
-                Datum_kupovine =
-            ConsoleViewUtils.SafeInputDateOnly("Datum kupovine [yyyy-MM-dd]: "),
+                IDposetioca = IDposetioca,
+                IDknjige = IDknjige,
+                Datum_kupovine =ConsoleViewUtils.SafeInputDateOnly("Datum kupovine [yyyy-MM-dd]: "),
                 Ocena = ConsoleViewUtils.SafeInputInt("Ocena [1-5]: "),
                 Komentar = ConsoleViewUtils.SafeInputStr("Komentar: ")
             };
@@ -100,9 +129,23 @@ namespace ConsoleClient.Views
             } while (choice != 0);
         }
 
+        // brisanje kupovine
         protected override void ObjRemoved(Kupovina kupovina)
         {
-            
+            Posetilac posetilac =_posetiociDAO.GetById(kupovina.IDposetioca);
+            Knjiga knjiga =_knjigeDAO.GetById(kupovina.IDknjige);
+
+            if (posetilac != null)
+            {
+                posetilac.Kupljene_knjige.Remove(kupovina.IDknjige);
+                _posetiociDAO.Update(posetilac);
+            }
+
+            if (knjiga != null)
+            {
+                knjiga.IDKupaca.Remove(kupovina.IDposetioca);
+                _knjigeDAO.Update(knjiga);
+            }
         }
     }
 }
